@@ -1,9 +1,7 @@
 import com.alibaba.fastjson.JSONException;
+import org.example.IRecord;
 import org.example.LocalJsonTableDataSource;
-import org.example.LocalJsonTableDataSource.DbFileNotFoundException;
-import org.example.LocalJsonTableDataSource.NoColumnsException;
-import org.example.LocalJsonTableDataSource.NoMetaException;
-import org.example.LocalJsonTableDataSource.UnexpectedStructureException;
+import org.example.LocalJsonTableDataSource.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -113,6 +111,30 @@ public class LocalJsonTableDataSourceTest {
                 assertTrue(expectedColumns.contains(actualColumn));
             }
         } catch(Exception e) {
+            assertNull(e);
+        }
+    }
+
+    @Test
+    public void GetExistingRecordTest() {
+        try(LocalJsonTableDataSource dataSource =
+                new LocalJsonTableDataSource("src/test/resources/usertestdb.json")
+        ) {
+            IRecord record = dataSource.getRecord("&^812bc");
+            assertNotNull(record);
+        } catch (Exception e) {
+            assertNull(e);
+        }
+    }
+
+    @Test
+    public void GetNonExistingRecordTest() {
+        try(LocalJsonTableDataSource dataSource =
+                    new LocalJsonTableDataSource("src/test/resources/usertestdb.json")
+        ) {
+            IRecord record = dataSource.getRecord("nonexisting");
+            assertNotNull(record);
+        } catch (Exception e) {
             assertNull(e);
         }
     }
