@@ -3,9 +3,13 @@ package org.example;
 import com.alibaba.fastjson.JSONObject;
 
 public class JsonRecord implements IRecord {
-    private String key;
-    private JSONObject object;
+    private final String key;
+    private final JSONObject object;
 
+    public JsonRecord(String key, JSONObject object) {
+        this.key = key;
+        this.object = object;
+    }
 
     @Override
     public String getKey(String id) {
