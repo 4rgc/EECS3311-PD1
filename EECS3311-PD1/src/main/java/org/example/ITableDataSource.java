@@ -10,4 +10,10 @@ public interface ITableDataSource extends AutoCloseable {
     public IRecord createRecord(IRecord newRecord);
 
     public IRecord removeRecord(String key);
+
+    public class TableDataSourceException extends Exception {
+        public TableDataSourceException(String message) {
+            super("TableDataSource exception: " + message);
+        }
+    }
 }
