@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.ITableDataSource.TableDataSourceException;
+
 public class LocalJsonTableDataSourceFactory implements ITableDataSourceFactory {
 
     private final String fileName;
@@ -9,7 +11,7 @@ public class LocalJsonTableDataSourceFactory implements ITableDataSourceFactory 
     }
 
     @Override
-    public ITableDataSource createTableDataSource() {
+    public ITableDataSource createTableDataSource() throws TableDataSourceException {
         return new LocalJsonTableDataSource(fileName);
     }
 }

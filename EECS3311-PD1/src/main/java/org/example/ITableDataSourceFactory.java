@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.ITableDataSource.TableDataSourceException;
+
 public interface ITableDataSourceFactory {
-    public ITableDataSource createTableDataSource();
+    ITableDataSource createTableDataSource() throws TableDataSourceException;
 }
