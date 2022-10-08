@@ -7,7 +7,7 @@ public interface ITableDataSource extends AutoCloseable {
 
     public IRecord updateRecord(String key, IRecord newRecord);
 
-    public IRecord createRecord(String key, IRecord newRecord);
+    public IRecord createRecord(IRecord newRecord);
 
     public IRecord removeRecord(String key);
 }
