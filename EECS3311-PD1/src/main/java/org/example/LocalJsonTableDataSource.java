@@ -72,8 +72,17 @@ public class LocalJsonTableDataSource implements ITableDataSource {
 
         for (Object col : columns) {
             for(String key : keys) {
-                JSONObject row = obj.getJSONObject(key);
+                JSONObject row = rows.getJSONObject(key);
                 if(!row.containsKey(col))
+                    throw new UnexpectedStructureException();
+            }
+        }
+
+        for (String key : keys) {
+            JSONObject row = rows.getJSONObject(key);
+            String[] rowColumns = row.keySet().toArray(new String[]{});
+            for (String rowColumn : rowColumns) {
+                if(!columns.contains(rowColumn))
                     throw new UnexpectedStructureException();
             }
         }
