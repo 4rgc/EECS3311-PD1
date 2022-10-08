@@ -1,43 +1,172 @@
 package org.example;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.util.Scanner;
+import java.util.UUID;
 
 public class LocalJsonTableDataSource implements ITableDataSource {
-    private String fileName;
+    private final String fileName;
 
-    private File file;
+    private final File file;
 
-    public LocalJsonTableDataSource(String fileName) {
+    private JSONObject data;
+    private JSONObject meta;
+
+    private String[] columns;
+
+    private String generateNewId() {
+        UUID newId = UUID.randomUUID();
+        return newId.toString();
+    }
+
+    private String readFileAsString() throws DbFileNotFoundException {
+        String text = "";
+        try {
+            Scanner myReader = new Scanner(file);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                text += data;
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            throw new DbFileNotFoundException(this.fileName);
+        }
+
+        return text;
+    }
+
+    private void parseStringIntoJsonObject(String text) {
+        JSONObject obj = (JSONObject) JSON.parse(text);
+        JSONObject meta = obj.getJSONObject("0");
+        this.meta = meta;
+        JSONArray columns = meta.getJSONArray("columns");
+        this.columns = (String[]) columns.toArray(new String[]{});
+        obj.remove("0");
+        this.data = obj;
+    }
+
+    private void validateJsonString(String text) throws TableDataSourceException {
+        JSONObject obj = (JSONObject) JSON.parse(text);
+
+        JSONObject meta = obj.getJSONObject("0");
+
+        if(meta == null) {
+            throw new NoMetaException();
+        }
+
+        JSONArray columns = meta.getJSONArray("columns");
+
+        if(columns == null) {
+            throw new NoColumnsException();
+        }
+
+        JSONObject rows = (JSONObject) obj.clone();
+        rows.remove("0");
+        String[] keys = rows.keySet().toArray(new String[]{});
+
+        for (Object col : columns) {
+            for(String key : keys) {
+                JSONObject row = obj.getJSONObject(key);
+                if(!row.containsKey(col))
+                    throw new UnexpectedStructureException();
+            }
+        }
+    }
+
+    public LocalJsonTableDataSource(String fileName) throws TableDataSourceException {
         this.fileName = fileName;
+        file = new File(fileName);
+        String fileString = readFileAsString();
+        validateJsonString(fileString);
+        parseStringIntoJsonObject(fileString);
     }
 
     @Override
     public String[] getKeys() {
-        return new String[0];
+        return data.keySet().toArray(new String[]{});
+    }
+
+    @Override
+    public String[] getColumns() {
+        return this.columns;
     }
 
     @Override
     public IRecord getRecord(String key) {
-        return null;
+        return new JsonRecord(key, data.getJSONObject(key));
     }
 
     @Override
     public IRecord updateRecord(String key, IRecord newRecord) {
-        return null;
+        JSONObject row = data.getJSONObject(key);
+        JSONObject newRow = (JSONObject) row.clone();
+        for (String column: columns) {
+            if(newRecord.getCell(column) == null) {continue;}
+            if(String.valueOf(newRecord.getCell(column)).equals(row.getString(column))) {
+                continue;
+            }
+            newRow.put(column, newRecord.getCell(column));
+        }
+        this.data.put(key, newRow.clone());
+        return new JsonRecord(key, newRow);
     }
 
     @Override
-    public IRecord createRecord(String key, IRecord newRecord) {
-        return null;
+    public IRecord createRecord(IRecord newRecord) {
+        JSONObject newRow = new JSONObject();
+        for (String column: columns) {
+            newRow.put(column, String.valueOf(newRecord.getCell(column)));
+        }
+        String newKey = generateNewId();
+        data.put(newKey, newRow.clone());
+        return new JsonRecord(newKey, newRow);
     }
 
     @Override
     public IRecord removeRecord(String key) {
-        return null;
+        JSONObject recordToRemove = data.getJSONObject(key);
+        data.remove(key);
+        return new JsonRecord(key, recordToRemove);
     }
 
     @Override
     public void close() throws Exception {
+        JSONObject objToWrite = (JSONObject) data.clone();
+        objToWrite.put("0", meta);
+        String jsonString = objToWrite.toJSONString();
 
+        FileWriter myWriter = new FileWriter(file, false);
+        myWriter.write(jsonString);
+        myWriter.close();
+    }
+
+    public static class NoColumnsException extends TableDataSourceException {
+        public NoColumnsException() {
+            super("No columns detected in the metadata");
+        }
+    }
+
+    public static class NoMetaException extends TableDataSourceException {
+        public NoMetaException() {
+            super("No meta entry detected in the json file (key=\"0\")");
+        }
+    }
+
+    public static class UnexpectedStructureException extends TableDataSourceException {
+        public UnexpectedStructureException() {
+            super("The structure of the JSON table is unexpected. Expected values to follow the columns defined in the metadata");
+        }
+    }
+
+    public static class DbFileNotFoundException extends TableDataSourceException {
+        public DbFileNotFoundException(String fileName) {
+            super("Specified JSON db file does not exist: " + fileName);
+        }
     }
 }
