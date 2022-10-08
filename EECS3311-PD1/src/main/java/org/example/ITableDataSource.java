@@ -1,17 +1,19 @@
 package org.example;
 
 public interface ITableDataSource extends AutoCloseable {
-    public String[] getKeys();
+    String[] getKeys();
 
-    public IRecord getRecord(String key);
+    String[] getColumns();
 
-    public IRecord updateRecord(String key, IRecord newRecord);
+    IRecord getRecord(String key);
 
-    public IRecord createRecord(IRecord newRecord);
+    IRecord updateRecord(String key, IRecord newRecord);
 
-    public IRecord removeRecord(String key);
+    IRecord createRecord(IRecord newRecord);
 
-    public class TableDataSourceException extends Exception {
+    IRecord removeRecord(String key);
+
+    class TableDataSourceException extends Exception {
         public TableDataSourceException(String message) {
             super("TableDataSource exception: " + message);
         }
