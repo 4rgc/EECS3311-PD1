@@ -1,7 +1,7 @@
 package org.example;
 
 public interface IRecord {
-    String getKey(String id);
+    String getKey();
 
     Object getCell(String name);
 

@@ -12,7 +12,7 @@ public class JsonRecord implements IRecord {
     }
 
     @Override
-    public String getKey(String id) {
+    public String getKey() {
         return key;
     }
 
