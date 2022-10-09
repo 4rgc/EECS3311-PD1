@@ -7,6 +7,8 @@ import com.alibaba.fastjson.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -46,7 +48,7 @@ public class LocalJsonTableDataSource implements ITableDataSource {
         JSONObject meta = obj.getJSONObject("0");
         this.meta = meta;
         JSONArray columns = meta.getJSONArray("columns");
-        this.columns = (String[]) columns.toArray(new String[]{});
+        this.columns = (String[]) columns.toArray(new String[0]);
         obj.remove("0");
         this.data = obj;
     }
@@ -88,6 +90,21 @@ public class LocalJsonTableDataSource implements ITableDataSource {
         }
     }
 
+    private boolean isRecordValid(IRecord record) {
+        for (String col : columns) {
+            if(record.getCell(col) == null)
+                return false;
+        }
+
+        List<String> columnsList = Arrays.asList(columns);
+        String[] recordColumns = record.getColumns();
+        for (String recordColumn : recordColumns) {
+            if(!columnsList.contains(recordColumn))
+                return false;
+        }
+        return true;
+    }
+
     public LocalJsonTableDataSource(String fileName) throws TableDataSourceException {
         this.fileName = fileName;
         file = new File(fileName);
@@ -127,7 +144,9 @@ public class LocalJsonTableDataSource implements ITableDataSource {
     }
 
     @Override
-    public IRecord createRecord(IRecord newRecord) {
+    public IRecord createRecord(IRecord newRecord) throws InvalidRecordException {
+        if(!isRecordValid(newRecord))
+            throw new InvalidRecordException("the record in createRecord was invalid");
         JSONObject newRow = new JSONObject();
         for (String column: columns) {
             newRow.put(column, String.valueOf(newRecord.getCell(column)));
@@ -176,6 +195,12 @@ public class LocalJsonTableDataSource implements ITableDataSource {
     public static class DbFileNotFoundException extends TableDataSourceException {
         public DbFileNotFoundException(String fileName) {
             super("Specified JSON db file does not exist: " + fileName);
+        }
+    }
+
+    public static class InvalidRecordException extends TableDataSourceException {
+        public InvalidRecordException(String message) {
+            super("Invalid record encountered: " + message);
         }
     }
 }
