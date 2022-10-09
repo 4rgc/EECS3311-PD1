@@ -129,10 +129,13 @@ public class LocalJsonTableDataSource implements ITableDataSource {
     }
 
     @Override
-    public IRecord updateRecord(IRecord newRecord) {
+    public IRecord updateRecord(IRecord newRecord) throws InvalidRecordException {
         String key = newRecord.getKey();
 
         JSONObject row = data.getJSONObject(key);
+        if(row == null)
+            throw new InvalidRecordException("cannot update record: a record with key \"" + key + "\" doesn't exist");
+
         JSONObject newRow = (JSONObject) row.clone();
 
         for (String column: columns) {
