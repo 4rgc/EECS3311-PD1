@@ -329,4 +329,31 @@ public class LocalJsonTableDataSourceTest {
             );
         }
     }
+
+    @Test
+    public void RemoveValidRecordTest() throws Exception {
+        String key = "&^812bc";
+
+        try (LocalJsonTableDataSource dataSource =
+                     new LocalJsonTableDataSource(tempDbFilePath)
+        ) {
+            IRecord removedRecord = dataSource.removeRecord(key);
+            assertEquals(key ,removedRecord.getKey());
+            assertEquals("user3", removedRecord.getCell("username"));
+            assertEquals("password3", removedRecord.getCell("password"));
+        }
+    }
+
+    @Test
+    public void InvalidRecordExceptionOnRemoveNonExistentRecordTest() throws Exception {
+        String key = "nonexistent";
+
+        try (LocalJsonTableDataSource dataSource =
+                     new LocalJsonTableDataSource(tempDbFilePath)
+        ) {
+            assertThrows(InvalidRecordException.class, () ->
+                    dataSource.removeRecord(key)
+            );
+        }
+    }
 }
