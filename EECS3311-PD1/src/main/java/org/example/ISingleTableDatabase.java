@@ -1,21 +1,21 @@
 package org.example;
 
-public interface ISingleTableDatabase<T> {
-    public String[] getKeys(T record) throws AccessToDatabaseException;
+public interface ISingleTableDatabase<T extends IDbRecord> {
+    String[] getKeys(T record) throws DatabaseException;
 
-    public T createRecord(T record) throws AccessToDatabaseException;
+    T createRecord(T newT) throws DatabaseException;
 
-    public T updateRecord(Object recordId, T updatedRecord) throws AccessToDatabaseException;
+    T updateRecord(T updatedT) throws DatabaseException;
 
-    public T getRecord(Object id) throws AccessToDatabaseException;
+    T getRecord(String id) throws DatabaseException;
 
-    public T removeRecord(Object id) throws AccessToDatabaseException;
+    T removeRecord(String id) throws DatabaseException;
 
-    public class DatabaseException extends Exception {
+    class DatabaseException extends Exception {
         public DatabaseException(String message) {super(String.format("Database exception: %s", message));}
     }
 
-    public class AccessToDatabaseException extends DatabaseException {
+    class AccessToDatabaseException extends DatabaseException {
         public AccessToDatabaseException(String message) {super(String.format("Exception when accessing database: %s", message));}
     }
 }
