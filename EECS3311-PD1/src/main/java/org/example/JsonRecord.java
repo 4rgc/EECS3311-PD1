@@ -18,11 +18,11 @@ public class JsonRecord implements IRecord {
 
     @Override
     public Object getCell(String name) {
-        return object.getString(name);
+        return object == null ? null : object.getString(name);
     }
 
     @Override
     public String[] getColumns() {
-        return object.keySet().toArray(new String[0]);
+        return object == null ? new String[0] : object.keySet().toArray(new String[0]);
     }
 }
