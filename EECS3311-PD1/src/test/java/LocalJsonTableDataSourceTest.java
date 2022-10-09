@@ -1,15 +1,65 @@
 import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
 import org.example.IRecord;
+import org.example.JsonRecord;
 import org.example.LocalJsonTableDataSource;
 import org.example.LocalJsonTableDataSource.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LocalJsonTableDataSourceTest {
+    private String createACopyOfAFile(String originalFilePath) throws IOException {
+        String origFileString = getFileAsString(originalFilePath);
+
+        String randomString = getRandomString();
+
+        String copyFilePath = originalFilePath + "." + randomString;
+        File copy = new File(copyFilePath);
+        copy.createNewFile();
+
+        writeToFile(origFileString, copy);
+
+        return copyFilePath;
+    }
+
+    private static String getFileAsString(String filePath) throws FileNotFoundException {
+        File file = new File(filePath);
+        return readFromFile(file);
+    }
+
+    private static String readFromFile(File file) throws FileNotFoundException {
+        String fileString = "";
+        Scanner myReader = new Scanner(file);
+        while (myReader.hasNextLine()) {
+            String data = myReader.nextLine();
+            fileString += data;
+        }
+        myReader.close();
+        return fileString;
+    }
+
+    private static String getRandomString() {
+        return UUID.randomUUID().toString().replaceAll("_", "");
+    }
+
+    private static void writeToFile(String contents, File file) throws IOException {
+        FileWriter myWriter = new FileWriter(file, false);
+        myWriter.write(contents);
+        myWriter.close();
+    }
+
+    private void deleteFile(String filePath) {
+        File file = new File(filePath);
+        file.delete();
+    }
+
     @Test
     public void ConstructsWithNoExceptionTest() {
         assertDoesNotThrow(() ->
@@ -136,6 +186,67 @@ public class LocalJsonTableDataSourceTest {
             assertNotNull(record);
         } catch (Exception e) {
             assertNull(e);
+        }
+    }
+
+    @Test
+    public void CreateValidRecordTest() throws IOException {
+        String tempFilePath = createACopyOfAFile("src/test/resources/usertestdb.json");
+
+        JsonRecord newRecord = new JsonRecord(
+                getRandomString(),
+                JSONObject.parseObject("{\"username\": \"user\", \"password\": \"pw\"}")
+        );
+
+        try(LocalJsonTableDataSource dataSource =
+                    new LocalJsonTableDataSource(tempFilePath)
+        ) {
+            IRecord record = dataSource.createRecord(newRecord);
+            assertNotNull(record);
+        } catch (Exception e) {
+            assertNull(e);
+        } finally {
+            deleteFile(tempFilePath);
+        }
+    }
+
+    @Test
+    public void CreateInvalidRecordExtraFieldTest() throws IOException {
+        String tempFilePath = createACopyOfAFile("src/test/resources/usertestdb.json");
+
+        JsonRecord newRecord = new JsonRecord(
+                getRandomString(),
+                JSONObject.parseObject("{\"username\": \"user\", \"password\": \"pw\", \"extrafield\": \"huh\"}")
+        );
+
+        try(LocalJsonTableDataSource dataSource =
+                    new LocalJsonTableDataSource(tempFilePath)
+        ) {
+            assertThrows(InvalidRecordException.class, () -> dataSource.createRecord(newRecord));
+        } catch (Exception e) {
+            assertNull(e);
+        } finally {
+            deleteFile(tempFilePath);
+        }
+    }
+
+    @Test
+    public void CreateInvalidRecordMissingFieldTest() throws IOException {
+        String tempFilePath = createACopyOfAFile("src/test/resources/usertestdb.json");
+
+        JsonRecord newRecord = new JsonRecord(
+                getRandomString(),
+                JSONObject.parseObject("{\"username\": \"user\"}")
+        );
+
+        try(LocalJsonTableDataSource dataSource =
+                    new LocalJsonTableDataSource(tempFilePath)
+        ) {
+            assertThrows(InvalidRecordException.class, () -> dataSource.createRecord(newRecord));
+        } catch (Exception e) {
+            assertNull(e);
+        } finally {
+            deleteFile(tempFilePath);
         }
     }
 }
