@@ -7,7 +7,7 @@ public interface ITableDataSource extends AutoCloseable {
 
     IRecord getRecord(String key) throws TableDataSourceException;
 
-    IRecord updateRecord(String key, IRecord newRecord) throws TableDataSourceException;
+    IRecord updateRecord(IRecord newRecord) throws TableDataSourceException;
 
     IRecord createRecord(IRecord newRecord) throws TableDataSourceException;
 

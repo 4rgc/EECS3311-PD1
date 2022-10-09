@@ -129,9 +129,12 @@ public class LocalJsonTableDataSource implements ITableDataSource {
     }
 
     @Override
-    public IRecord updateRecord(String key, IRecord newRecord) {
+    public IRecord updateRecord(IRecord newRecord) {
+        String key = newRecord.getKey();
+
         JSONObject row = data.getJSONObject(key);
         JSONObject newRow = (JSONObject) row.clone();
+
         for (String column: columns) {
             if(newRecord.getCell(column) == null) {continue;}
             if(String.valueOf(newRecord.getCell(column)).equals(row.getString(column))) {
