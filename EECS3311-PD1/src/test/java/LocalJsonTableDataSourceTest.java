@@ -8,10 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -139,7 +136,7 @@ public class LocalJsonTableDataSourceTest {
     }
 
     @Test
-    public void GetKeysTest() {
+    public void GetKeysTest() throws Exception {
         List<String> expectedKeys = Arrays.asList("&^812bc", "q23fasdfg", "asdgasdgb");
 
         try(LocalJsonTableDataSource dataSource =
@@ -154,13 +151,11 @@ public class LocalJsonTableDataSourceTest {
             for (String actualKey: actualKeys) {
                 assertTrue(expectedKeys.contains(actualKey));
             }
-        } catch (Exception e) {
-            assertNull(e);
         }
     }
 
     @Test
-    public void GetColumnsTest() {
+    public void GetColumnsTest() throws Exception {
         List<String> expectedColumns = Arrays.asList("username", "password");
 
         try(LocalJsonTableDataSource dataSource =
@@ -175,37 +170,31 @@ public class LocalJsonTableDataSourceTest {
             for (String actualColumn: actualColumns) {
                 assertTrue(expectedColumns.contains(actualColumn));
             }
-        } catch(Exception e) {
-            assertNull(e);
         }
     }
 
     @Test
-    public void GetExistingRecordTest() {
+    public void GetExistingRecordTest() throws Exception {
         try(LocalJsonTableDataSource dataSource =
                 new LocalJsonTableDataSource("src/test/resources/usertestdb.json")
         ) {
             IRecord record = dataSource.getRecord("&^812bc");
             assertNotNull(record);
-        } catch (Exception e) {
-            assertNull(e);
         }
     }
 
     @Test
-    public void GetNonExistingRecordTest() {
+    public void GetNonExistingRecordTest() throws Exception {
         try(LocalJsonTableDataSource dataSource =
                     new LocalJsonTableDataSource("src/test/resources/usertestdb.json")
         ) {
             IRecord record = dataSource.getRecord("nonexisting");
             assertNotNull(record);
-        } catch (Exception e) {
-            assertNull(e);
         }
     }
 
     @Test
-    public void CreateValidRecordTest() {
+    public void CreateValidRecordTest() throws Exception {
         JsonRecord newRecord = new JsonRecord(
                 getRandomString(),
                 JSONObject.parseObject("{\"username\": \"user\", \"password\": \"pw\"}")
@@ -216,13 +205,11 @@ public class LocalJsonTableDataSourceTest {
         ) {
             IRecord record = dataSource.createRecord(newRecord);
             assertNotNull(record);
-        } catch (Exception e) {
-            assertNull(e);
         }
     }
 
     @Test
-    public void CreateInvalidRecordExtraFieldTest() {
+    public void CreateInvalidRecordExtraFieldTest() throws Exception {
         JsonRecord newRecord = new JsonRecord(
                 getRandomString(),
                 JSONObject.parseObject("{\"username\": \"user\", \"password\": \"pw\", \"extrafield\": \"huh\"}")
@@ -232,13 +219,11 @@ public class LocalJsonTableDataSourceTest {
                     new LocalJsonTableDataSource(tempDbFilePath)
         ) {
             assertThrows(InvalidRecordException.class, () -> dataSource.createRecord(newRecord));
-        } catch (Exception e) {
-            assertNull(e);
         }
     }
 
     @Test
-    public void CreateInvalidRecordMissingFieldTest() {
+    public void CreateInvalidRecordMissingFieldTest() throws Exception {
         JsonRecord newRecord = new JsonRecord(
                 getRandomString(),
                 JSONObject.parseObject("{\"username\": \"user\"}")
@@ -248,13 +233,11 @@ public class LocalJsonTableDataSourceTest {
                     new LocalJsonTableDataSource(tempDbFilePath)
         ) {
             assertThrows(InvalidRecordException.class, () -> dataSource.createRecord(newRecord));
-        } catch (Exception e) {
-            assertNull(e);
         }
     }
 
     @Test
-    public void CreateInvalidRecordNullValue() {
+    public void CreateInvalidRecordNullValue() throws Exception {
         JsonRecord newRecord = new JsonRecord(
                 getRandomString(),
                 JSONObject.parseObject("{\"username\": \"user\", \"password\": null}")
@@ -264,15 +247,11 @@ public class LocalJsonTableDataSourceTest {
                     new LocalJsonTableDataSource(tempDbFilePath)
         ) {
             assertThrows(InvalidRecordException.class, () -> dataSource.createRecord(newRecord));
-        } catch (Exception e) {
-            assertNull(e);
-        } finally {
-            deleteFile(tempDbFilePath);
         }
     }
 
     @Test
-    public void UpdateValidRecordTest() {
+    public void UpdateValidRecordTest() throws Exception {
         JsonRecord newRecord = new JsonRecord(
                 "&^812bc",
                 JSONObject.parseObject("{\"username\": \"user\", \"password\": \"newpassword\"}")
@@ -284,13 +263,11 @@ public class LocalJsonTableDataSourceTest {
             IRecord record = dataSource.updateRecord(newRecord);
             assertEquals("user", record.getCell("username"));
             assertEquals("newpassword", record.getCell("password"));
-        } catch (Exception e) {
-            assertNull(e);
         }
     }
 
     @Test
-    public void PartialUpdateValidRecordTest() {
+    public void PartialUpdateValidRecordTest() throws Exception {
         JsonRecord newRecord = new JsonRecord(
                 "&^812bc",
                 JSONObject.parseObject("{\"password\": \"verynewpassword\"}")
@@ -302,13 +279,11 @@ public class LocalJsonTableDataSourceTest {
             IRecord record = dataSource.updateRecord(newRecord);
             assertEquals("user3", record.getCell("username"));
             assertEquals("verynewpassword", record.getCell("password"));
-        } catch (Exception e) {
-            assertNull(e);
         }
     }
 
     @Test
-    public void SameValueUpdateValidRecord() {
+    public void SameValueUpdateValidRecordTest() throws Exception {
         JsonRecord newRecord = new JsonRecord(
                 "&^812bc",
                 JSONObject.parseObject("{\"username\": \"user3\",\"password\": \"password3\"}")
@@ -320,13 +295,11 @@ public class LocalJsonTableDataSourceTest {
             IRecord record = dataSource.updateRecord(newRecord);
             assertEquals("user3", record.getCell("username"));
             assertEquals("password3", record.getCell("password"));
-        } catch (Exception e) {
-            assertNull(e);
         }
     }
 
     @Test
-    public void EmptyUpdateValidRecord() {
+    public void EmptyUpdateValidRecordTest() throws Exception {
         JsonRecord newRecord = new JsonRecord(
                 "&^812bc",
                 JSONObject.parseObject("{}")
@@ -338,13 +311,11 @@ public class LocalJsonTableDataSourceTest {
             IRecord record = dataSource.updateRecord(newRecord);
             assertEquals("user3", record.getCell("username"));
             assertEquals("password3", record.getCell("password"));
-        } catch (Exception e) {
-            assertNull(e);
         }
     }
 
     @Test
-    public void InvalidRecordExceptionOnUpdateNonExistentRecord() {
+    public void InvalidRecordExceptionOnUpdateNonExistentRecordTest() throws Exception {
         JsonRecord newRecord = new JsonRecord(
                 "nonexistent",
                 JSONObject.parseObject("{\"username\": \"nonexistent1\"}")
@@ -356,8 +327,6 @@ public class LocalJsonTableDataSourceTest {
             assertThrows(InvalidRecordException.class, () ->
                     dataSource.updateRecord(newRecord)
             );
-        } catch (Exception e) {
-            assertNull(e);
         }
     }
 }
