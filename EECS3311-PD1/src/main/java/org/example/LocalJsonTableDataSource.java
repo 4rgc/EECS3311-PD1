@@ -163,8 +163,11 @@ public class LocalJsonTableDataSource implements ITableDataSource {
     }
 
     @Override
-    public IRecord removeRecord(String key) {
+    public IRecord removeRecord(String key) throws InvalidRecordException {
         JSONObject recordToRemove = data.getJSONObject(key);
+        if(recordToRemove == null)
+            throw new InvalidRecordException("cannot remove record: record with key \"" + key + "\" doesn't exist");
+
         data.remove(key);
         return new JsonRecord(key, recordToRemove);
     }
