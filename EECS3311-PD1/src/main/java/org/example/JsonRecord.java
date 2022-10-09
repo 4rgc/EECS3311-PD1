@@ -20,4 +20,9 @@ public class JsonRecord implements IRecord {
     public Object getCell(String name) {
         return object.getString(name);
     }
+
+    @Override
+    public String[] getColumns() {
+        return object.keySet().toArray(new String[0]);
+    }
 }

@@ -1,7 +1,9 @@
 package org.example;
 
 public interface IRecord {
-    public String getKey(String id);
+    String getKey(String id);
 
-    public Object getCell(String name);
+    Object getCell(String name);
+
+    String[] getColumns();
 }
