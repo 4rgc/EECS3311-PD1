@@ -4,6 +4,8 @@ import org.example.IRecord;
 import org.example.JsonRecord;
 import org.example.LocalJsonTableDataSource;
 import org.example.LocalJsonTableDataSource.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -58,6 +60,19 @@ public class LocalJsonTableDataSourceTest {
     private void deleteFile(String filePath) {
         File file = new File(filePath);
         file.delete();
+    }
+
+    private String tempDbFilePath;
+
+    @BeforeEach
+    public void BeforeEach() throws IOException {
+        tempDbFilePath = createACopyOfAFile("src/test/resources/usertestdb.json");
+    }
+
+    @AfterEach
+    public void AfterEach() {
+        deleteFile(tempDbFilePath);
+        tempDbFilePath = null;
     }
 
     @Test
@@ -190,63 +205,51 @@ public class LocalJsonTableDataSourceTest {
     }
 
     @Test
-    public void CreateValidRecordTest() throws IOException {
-        String tempFilePath = createACopyOfAFile("src/test/resources/usertestdb.json");
-
+    public void CreateValidRecordTest() {
         JsonRecord newRecord = new JsonRecord(
                 getRandomString(),
                 JSONObject.parseObject("{\"username\": \"user\", \"password\": \"pw\"}")
         );
 
         try(LocalJsonTableDataSource dataSource =
-                    new LocalJsonTableDataSource(tempFilePath)
+                    new LocalJsonTableDataSource(tempDbFilePath)
         ) {
             IRecord record = dataSource.createRecord(newRecord);
             assertNotNull(record);
         } catch (Exception e) {
             assertNull(e);
-        } finally {
-            deleteFile(tempFilePath);
         }
     }
 
     @Test
-    public void CreateInvalidRecordExtraFieldTest() throws IOException {
-        String tempFilePath = createACopyOfAFile("src/test/resources/usertestdb.json");
-
+    public void CreateInvalidRecordExtraFieldTest() {
         JsonRecord newRecord = new JsonRecord(
                 getRandomString(),
                 JSONObject.parseObject("{\"username\": \"user\", \"password\": \"pw\", \"extrafield\": \"huh\"}")
         );
 
         try(LocalJsonTableDataSource dataSource =
-                    new LocalJsonTableDataSource(tempFilePath)
+                    new LocalJsonTableDataSource(tempDbFilePath)
         ) {
             assertThrows(InvalidRecordException.class, () -> dataSource.createRecord(newRecord));
         } catch (Exception e) {
             assertNull(e);
-        } finally {
-            deleteFile(tempFilePath);
         }
     }
 
     @Test
-    public void CreateInvalidRecordMissingFieldTest() throws IOException {
-        String tempFilePath = createACopyOfAFile("src/test/resources/usertestdb.json");
-
+    public void CreateInvalidRecordMissingFieldTest() {
         JsonRecord newRecord = new JsonRecord(
                 getRandomString(),
                 JSONObject.parseObject("{\"username\": \"user\"}")
         );
 
         try(LocalJsonTableDataSource dataSource =
-                    new LocalJsonTableDataSource(tempFilePath)
+                    new LocalJsonTableDataSource(tempDbFilePath)
         ) {
             assertThrows(InvalidRecordException.class, () -> dataSource.createRecord(newRecord));
         } catch (Exception e) {
             assertNull(e);
-        } finally {
-            deleteFile(tempFilePath);
         }
     }
 }
