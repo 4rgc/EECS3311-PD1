@@ -1,5 +1,10 @@
 package org.example;
 
+import com.google.gson.JsonArray;
+
 public interface IResponse {
-    public String data = "";
+
+    public JsonArray getJsonArray();
+
+    public Double getValue(int year);
 }
