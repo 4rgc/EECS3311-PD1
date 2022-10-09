@@ -1,8 +1,6 @@
 package org.example;
 
-public interface IUser {
-    String getKey();
-
+public interface IUser extends IDbRecord {
     String getUsername();
 
     void setUsername(String username);
