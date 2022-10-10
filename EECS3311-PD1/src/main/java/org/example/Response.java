@@ -3,7 +3,7 @@ package org.example;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
-public class Response {
+public class Response implements IResponse{
 
     private JsonArray jsonArray;
     public Response(String jsonStringResponse){
@@ -16,19 +16,26 @@ public class Response {
         return this.jsonArray;
     }
 
-    public int getValue(int year){
-        int sizeOfResults = this.jsonArray.get(1).getAsJsonArray().size();
+    public Double getValue(int year){
+        int sizeOfResults = getSize();
 
         for(int i=0; i<sizeOfResults; i++){
             if(this.jsonArray.get(1).getAsJsonArray().get(i).getAsJsonObject()
                     .get("date").getAsInt() == year){
+                if (this.jsonArray.get(1).getAsJsonArray().get(i).getAsJsonObject()
+                        .get("value")==null){
+                    return -1.0;
+                }
                 return this.jsonArray.get(1).getAsJsonArray().get(i).getAsJsonObject()
-                        .get("value").getAsInt();
+                        .get("value").getAsDouble();
             }
         }
-        return -1;
+        return -1.0;
     }
 
+    public int getSize(){
+        return this.getJsonArray().get(1).getAsJsonArray().size();
+    }
 
 
 

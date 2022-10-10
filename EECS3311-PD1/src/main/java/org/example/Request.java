@@ -1,6 +1,6 @@
 package org.example;
 
-public class Request {
+public class Request implements IRequest{
     private String country;
     private String indicatorID;
     private String yearFrom;
