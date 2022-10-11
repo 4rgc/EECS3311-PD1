@@ -10,7 +10,7 @@ public class UserSingleTableDatabase implements ISingleTableDatabase<IUser> {
     }
 
     @Override
-    public String[] getKeys(IUser record) throws DatabaseException {
+    public String[] getKeys() throws DatabaseException {
         try(ITableDataSource dataSource = dataSourceFactory.createTableDataSource()) {
             return dataSource.getKeys();
         } catch(TableDataSourceException e) {

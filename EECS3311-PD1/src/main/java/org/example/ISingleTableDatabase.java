@@ -1,7 +1,7 @@
 package org.example;
 
 public interface ISingleTableDatabase<T extends IDbRecord> {
-    String[] getKeys(T record) throws DatabaseException;
+    String[] getKeys() throws DatabaseException;
 
     T createRecord(T newT) throws DatabaseException;
 
@@ -13,9 +13,5 @@ public interface ISingleTableDatabase<T extends IDbRecord> {
 
     class DatabaseException extends Exception {
         public DatabaseException(String message) {super(String.format("Database exception: %s", message));}
-    }
-
-    class AccessToDatabaseException extends DatabaseException {
-        public AccessToDatabaseException(String message) {super(String.format("Exception when accessing database: %s", message));}
     }
 }
