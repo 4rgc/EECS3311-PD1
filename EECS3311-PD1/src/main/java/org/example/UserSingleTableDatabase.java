@@ -14,13 +14,10 @@ public class UserSingleTableDatabase implements ISingleTableDatabase<IUser> {
         try(ITableDataSource dataSource = dataSourceFactory.createTableDataSource()) {
             return dataSource.getKeys();
         } catch(TableDataSourceException e) {
-            //FIXME: throw a DatabaseException
-            System.out.println("Data source exception: " + e.getMessage());
+            throw new DatabaseException("Data source exception: " + e.getMessage());
         } catch(Exception e) {
-            //FIXME: throw a DatabaseException
-            System.out.println("Other exception: " + e.getMessage());
+            throw new DatabaseException("Could not close TableDataSource: " + e.getMessage());
         }
-        return null;
     }
 
     @Override
@@ -31,13 +28,10 @@ public class UserSingleTableDatabase implements ISingleTableDatabase<IUser> {
             IRecord createdRecord = dataSource.createRecord(new UserRecord(newUser));
             return new User(createdRecord);
         } catch(TableDataSourceException e) {
-            //FIXME: throw a DatabaseException
-            System.out.println("Data source exception: " + e.getMessage());
+            throw new DatabaseException("Data source exception: " + e.getMessage());
         } catch(Exception e) {
-            //FIXME: throw a DatabaseException
-            System.out.println("Other exception: " + e.getMessage());
+            throw new DatabaseException("Could not close TableDataSource: " + e.getMessage());
         }
-        return null;
     }
 
     @Override
@@ -48,13 +42,10 @@ public class UserSingleTableDatabase implements ISingleTableDatabase<IUser> {
             IRecord updatedRecord = dataSource.updateRecord(new UserRecord(updatedUser));
             return new User(updatedRecord);
         } catch(TableDataSourceException e) {
-            //FIXME: throw a DatabaseException
-            System.out.println("Data source exception: " + e.getMessage());
+            throw new DatabaseException("Data source exception: " + e.getMessage());
         } catch(Exception e) {
-            //FIXME: throw a DatabaseException
-            System.out.println("Other exception: " + e.getMessage());
+            throw new DatabaseException("Could not close TableDataSource: " + e.getMessage());
         }
-        return null;
     }
 
     @Override
@@ -65,13 +56,10 @@ public class UserSingleTableDatabase implements ISingleTableDatabase<IUser> {
             IRecord record = dataSource.getRecord(id);
             return new User(record);
         } catch(TableDataSourceException e) {
-            //FIXME: throw a DatabaseException
-            System.out.println("Data source exception: " + e.getMessage());
+            throw new DatabaseException("Data source exception: " + e.getMessage());
         } catch(Exception e) {
-            //FIXME: throw a DatabaseException
-            System.out.println("Other exception: " + e.getMessage());
+            throw new DatabaseException("Could not close TableDataSource: " + e.getMessage());
         }
-        return null;
     }
 
     @Override
@@ -82,12 +70,9 @@ public class UserSingleTableDatabase implements ISingleTableDatabase<IUser> {
             IRecord record = dataSource.removeRecord(id);
             return new User(record);
         } catch(TableDataSourceException e) {
-            //FIXME: throw a DatabaseException
-            System.out.println("Data source exception: " + e.getMessage());
+            throw new DatabaseException("Data source exception: " + e.getMessage());
         } catch(Exception e) {
-            //FIXME: throw a DatabaseException
-            System.out.println("Other exception: " + e.getMessage());
+            throw new DatabaseException("Could not close TableDataSource: " + e.getMessage());
         }
-        return null;
     }
 }
