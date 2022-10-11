@@ -8,7 +8,7 @@ public class User implements IUser {
     public User(IRecord record) throws ClassCastException {
         this.key = record.getKey();
         this.username = (String) record.getCell("username");
-        this.username = (String) record.getCell("password");
+        this.password = (String) record.getCell("password");
     }
 
     @Override
