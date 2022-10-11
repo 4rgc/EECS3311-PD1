@@ -14,6 +14,15 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LocalJsonTableDataSourceTest {
+
+    public static final String VALID_TEST_DB_PATH = "src/test/resources/userDb/usertestdb.json";
+    public static final String NOMETA_TEST_DB_PATH = "src/test/resources/userDb/usertestdb_nometa.json";
+    public static final String NOCOLUMNS_TEST_DB_PATH = "src/test/resources/userDb/usertestdb_nocolumns.json";
+    public static final String MALFORMED_TEST_DB_PATH = "src/test/resources/userDb/usertestdb_malformed.json";
+    public static final String EXTRA_FIELD_STRUCTURE_TEST_DB_PATH = "src/test/resources/userDb/usertestdb_extra_field_unexpected.json";
+    public static final String MISSING_FIELD_STRUCTURE_TEST_DB_PATH = "src/test/resources/userDb/usertestdb_missing_field_unexpected.json";
+    public static final String NONEXISTENT_TEST_DB_PATH = "src/test/resources/userDb/usertestdb_nonexistent.json";
+
     private String createACopyOfAFile(String originalFilePath) throws IOException {
         String origFileString = getFileAsString(originalFilePath);
 
@@ -63,7 +72,7 @@ public class LocalJsonTableDataSourceTest {
 
     @BeforeEach
     public void BeforeEach() throws IOException {
-        tempDbFilePath = createACopyOfAFile("src/test/resources/usertestdb.json");
+        tempDbFilePath = createACopyOfAFile(VALID_TEST_DB_PATH);
     }
 
     @AfterEach
@@ -76,7 +85,7 @@ public class LocalJsonTableDataSourceTest {
     public void ConstructsWithNoExceptionTest() {
         assertDoesNotThrow(() ->
                 new LocalJsonTableDataSource(
-                        "src/test/resources/usertestdb.json"
+                        VALID_TEST_DB_PATH
                 ).close()
         );
     }
@@ -85,7 +94,7 @@ public class LocalJsonTableDataSourceTest {
     public void NoMetaExceptionOnConstructionTest() {
         assertThrows(NoMetaException.class, () ->
                 new LocalJsonTableDataSource(
-                        "src/test/resources/usertestdb_nometa.json"
+                        NOMETA_TEST_DB_PATH
                 ).close()
         );
     }
@@ -94,7 +103,7 @@ public class LocalJsonTableDataSourceTest {
     public void NoColumnsExceptionOnConstructionTest() {
         assertThrows(NoColumnsException.class, () ->
                 new LocalJsonTableDataSource(
-                        "src/test/resources/usertestdb_nocolumns.json"
+                        NOCOLUMNS_TEST_DB_PATH
                 ).close()
         );
     }
@@ -103,7 +112,7 @@ public class LocalJsonTableDataSourceTest {
     public void JsonExceptionOnConstructionTest() {
         assertThrows(JSONException.class, () ->
                 new LocalJsonTableDataSource(
-                        "src/test/resources/usertestdb_malformed.json"
+                        MALFORMED_TEST_DB_PATH
                 ).close()
         );
     }
@@ -112,7 +121,7 @@ public class LocalJsonTableDataSourceTest {
     public void UnexpectedStructureExceptionOnConstructionExtraFieldTest() {
         assertThrows(UnexpectedStructureException.class, () ->
                 new LocalJsonTableDataSource(
-                        "src/test/resources/usertestdb_extra_field_unexpected.json"
+                        EXTRA_FIELD_STRUCTURE_TEST_DB_PATH
                 ).close()
         );
     }
@@ -121,7 +130,7 @@ public class LocalJsonTableDataSourceTest {
     public void UnexpectedStructureExceptionOnConstructionMissingFieldTest() {
         assertThrows(UnexpectedStructureException.class, () ->
                 new LocalJsonTableDataSource(
-                        "src/test/resources/usertestdb_missing_field_unexpected.json"
+                        MISSING_FIELD_STRUCTURE_TEST_DB_PATH
                 ).close()
         );
     }
@@ -130,7 +139,7 @@ public class LocalJsonTableDataSourceTest {
     public void DbFileNotFoundExceptionOnNonExistentFile() {
         assertThrows(DbFileNotFoundException.class, () ->
                 new LocalJsonTableDataSource(
-                        "src/test/resources/usertestdb_nonexistent.json"
+                        NONEXISTENT_TEST_DB_PATH
                 ).close()
         );
     }
@@ -141,7 +150,7 @@ public class LocalJsonTableDataSourceTest {
 
         try(LocalJsonTableDataSource dataSource =
                     new LocalJsonTableDataSource(
-                            "src/test/resources/usertestdb.json"
+                            VALID_TEST_DB_PATH
                     )
         ) {
             List<String> actualKeys = Arrays.asList(dataSource.getKeys());
@@ -160,7 +169,7 @@ public class LocalJsonTableDataSourceTest {
 
         try(LocalJsonTableDataSource dataSource =
                     new LocalJsonTableDataSource(
-                            "src/test/resources/usertestdb.json"
+                            VALID_TEST_DB_PATH
                     )
         ) {
             List<String> actualColumns = Arrays.asList(dataSource.getColumns());
@@ -176,7 +185,7 @@ public class LocalJsonTableDataSourceTest {
     @Test
     public void GetExistingRecordTest() throws Exception {
         try(LocalJsonTableDataSource dataSource =
-                new LocalJsonTableDataSource("src/test/resources/usertestdb.json")
+                new LocalJsonTableDataSource(VALID_TEST_DB_PATH)
         ) {
             IRecord record = dataSource.getRecord("&^812bc");
             assertNotNull(record);
@@ -186,7 +195,7 @@ public class LocalJsonTableDataSourceTest {
     @Test
     public void GetNonExistingRecordTest() throws Exception {
         try(LocalJsonTableDataSource dataSource =
-                    new LocalJsonTableDataSource("src/test/resources/usertestdb.json")
+                    new LocalJsonTableDataSource(VALID_TEST_DB_PATH)
         ) {
             IRecord record = dataSource.getRecord("nonexisting");
             assertNotNull(record);
