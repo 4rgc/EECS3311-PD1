@@ -1,4 +1,4 @@
-package org.example;
+package org.example.userDb;
 
 public interface ISingleTableDatabase<T extends IDbRecord> {
     String[] getKeys() throws DatabaseException;

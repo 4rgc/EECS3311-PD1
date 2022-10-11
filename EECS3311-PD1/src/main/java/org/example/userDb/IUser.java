@@ -1,4 +1,4 @@
-package org.example;
+package org.example.userDb;
 
 public interface IUser extends IDbRecord {
     String getUsername();

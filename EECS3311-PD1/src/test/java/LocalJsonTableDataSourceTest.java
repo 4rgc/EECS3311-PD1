@@ -1,9 +1,9 @@
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import org.example.IRecord;
-import org.example.JsonRecord;
-import org.example.LocalJsonTableDataSource;
-import org.example.LocalJsonTableDataSource.*;
+import org.example.userDb.IRecord;
+import org.example.userDb.JsonRecord;
+import org.example.userDb.LocalJsonTableDataSource;
+import org.example.userDb.LocalJsonTableDataSource.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

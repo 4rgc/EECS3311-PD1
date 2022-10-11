@@ -1,4 +1,4 @@
-package org.example;
+package org.example.userDb;
 
 public interface IRecord {
     String getKey();

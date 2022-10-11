@@ -1,6 +1,6 @@
-package org.example;
+package org.example.userDb;
 
-import org.example.ITableDataSource.TableDataSourceException;
+import org.example.userDb.ITableDataSource.TableDataSourceException;
 
 public class UserSingleTableDatabase implements ISingleTableDatabase<IUser> {
     private final ITableDataSourceFactory dataSourceFactory;

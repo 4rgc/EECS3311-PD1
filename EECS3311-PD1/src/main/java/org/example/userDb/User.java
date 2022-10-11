@@ -1,4 +1,4 @@
-package org.example;
+package org.example.userDb;
 
 public class User implements IUser {
     private final String key;

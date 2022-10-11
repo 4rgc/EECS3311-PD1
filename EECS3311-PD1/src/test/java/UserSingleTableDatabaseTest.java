@@ -1,5 +1,8 @@
-import org.example.*;
-import org.example.ISingleTableDatabase.DatabaseException;
+import org.example.userDb.IRecord;
+import org.example.userDb.ISingleTableDatabase.DatabaseException;
+import org.example.userDb.ITableDataSource;
+import org.example.userDb.ITableDataSourceFactory;
+import org.example.userDb.UserSingleTableDatabase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
