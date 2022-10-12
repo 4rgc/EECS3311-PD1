@@ -12,7 +12,7 @@ public class Response implements IResponse{
     }
     public Response(){}
 
-    public JsonArray getJsonArray(){
+   private JsonArray getJsonArray(){
         return this.jsonArray;
     }
 
