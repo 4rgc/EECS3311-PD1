@@ -1,8 +1,12 @@
 package org.example;
 
 public interface IRequest {
-    public String country = "";
-    public String indicatorId = "";
-    public String yearFrom = "";
-    public String yearTo = "";
+
+    public String getCountry();
+
+    public String getIndicatorID();
+
+    public String getYearFrom();
+
+    public String getYearTo();
 }

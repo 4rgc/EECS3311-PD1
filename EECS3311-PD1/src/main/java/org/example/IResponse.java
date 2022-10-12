@@ -1,5 +1,6 @@
 package org.example;
 
 public interface IResponse {
-    public String data = "";
+    public Double getValue(int year);
+    public int getSize();
 }
