@@ -30,7 +30,7 @@ public class Response implements IResponse{
                         .get("value").getAsDouble();
             }
         }
-        return -1.0;
+        return null;
     }
 
     public int getSize(){

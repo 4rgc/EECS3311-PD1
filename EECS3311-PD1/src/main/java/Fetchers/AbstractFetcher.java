@@ -7,7 +7,7 @@ import java.util.Map;
 
 public abstract class AbstractFetcher {
 
-    protected String indicatorId;
+    protected String indicatorID;
     protected String country;
     protected String startYear;
     protected String endYear;
@@ -39,7 +39,7 @@ public abstract class AbstractFetcher {
     }
 
     public Response generateResponse(){
-        Request request = new Request(this.country, this.indicatorId
+        Request request = new Request(this.country, this.indicatorID
                 , this.startYear, this.endYear);
         return this.model.getData(request);
     }

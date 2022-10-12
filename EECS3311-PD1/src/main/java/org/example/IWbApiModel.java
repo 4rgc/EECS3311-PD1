@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public interface IWbApiModel {
 
-    public Response getData(Request request);
+    public Response getData(Request request) throws WbApiModel.WbApiModelException;
 
-    public String callAPI();
+    public String callAPI() throws WbApiModel.WbApiModelException;
 }
