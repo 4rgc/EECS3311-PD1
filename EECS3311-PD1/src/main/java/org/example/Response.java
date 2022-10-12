@@ -33,13 +33,7 @@ public class Response implements IResponse{
         return null;
     }
 
-    private int getSize(){
+    public int getSize(){
         return this.getJsonArray().get(1).getAsJsonArray().size();
     }
-
-
-
-
-
-
 }

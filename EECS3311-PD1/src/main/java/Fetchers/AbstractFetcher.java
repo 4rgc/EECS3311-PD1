@@ -13,7 +13,7 @@ public abstract class AbstractFetcher {
     protected String endYear;
     protected IWbApiModel model;
 
-    private AbstractFetcher(String sYear, String eYear, String country){
+    public AbstractFetcher(String sYear, String eYear, String country){
         this.model = new WbApiModel();
         this.country = country;
         this.startYear = sYear;
@@ -38,7 +38,7 @@ public abstract class AbstractFetcher {
         return data;
     }
 
-    public Response generateResponse() throws WbApiModel.WbApiModelException {
+    private Response generateResponse() throws WbApiModel.WbApiModelException {
         Request request = new Request(this.country, this.indicatorID
                 , this.startYear, this.endYear);
         return this.model.getData(request);
