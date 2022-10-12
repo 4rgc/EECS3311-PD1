@@ -13,7 +13,7 @@ public abstract class AbstractFetcher {
     protected String endYear;
     protected IWbApiModel model;
 
-    public AbstractFetcher(String sYear, String eYear, String country){
+    private AbstractFetcher(String sYear, String eYear, String country){
         this.model = new WbApiModel();
         this.country = country;
         this.startYear = sYear;

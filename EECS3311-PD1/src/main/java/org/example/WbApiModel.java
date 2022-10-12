@@ -20,7 +20,7 @@ public class WbApiModel implements IWbApiModel {
         return r;
     }
 
-    public String callAPI() throws WbApiModelException {
+    private String callAPI() throws WbApiModelException {
         try {
             URL url = new URL(this.urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
