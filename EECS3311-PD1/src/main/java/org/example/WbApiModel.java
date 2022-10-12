@@ -42,7 +42,7 @@ public class WbApiModel implements IWbApiModel {
         throw new WbApiModelException("API call failed");
     }
 
-    class WbApiModelException extends Exception {
+    public class WbApiModelException extends Exception {
         public WbApiModelException(String message) {
             super(message);
         }

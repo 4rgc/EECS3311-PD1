@@ -20,7 +20,7 @@ public abstract class AbstractFetcher {
         this.endYear = eYear;
     }
 
-    public Map<String, Double> getData(){
+    public Map<String, Double> getData() throws WbApiModel.WbApiModelException {
         IResponse response = generateResponse();
 
         Map<String, Double> data = new HashMap<String, Double>();
@@ -38,7 +38,7 @@ public abstract class AbstractFetcher {
         return data;
     }
 
-    public Response generateResponse(){
+    public Response generateResponse() throws WbApiModel.WbApiModelException {
         Request request = new Request(this.country, this.indicatorID
                 , this.startYear, this.endYear);
         return this.model.getData(request);
