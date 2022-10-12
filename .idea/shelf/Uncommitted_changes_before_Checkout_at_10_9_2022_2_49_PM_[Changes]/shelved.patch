@@ -1,0 +1,79 @@
+Index: EECS3311-PD1/src/main/java/org/example/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example;\r\n\r\npublic class Main {\r\n    public static void main(String[] args) {\r\n        System.out.println(\"Hello world!\");\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/EECS3311-PD1/src/main/java/org/example/Main.java b/EECS3311-PD1/src/main/java/org/example/Main.java
+--- a/EECS3311-PD1/src/main/java/org/example/Main.java	(revision a424a3f955db647a619e072b37862c16d41ccdf4)
++++ b/EECS3311-PD1/src/main/java/org/example/Main.java	(date 1665167748483)
+@@ -2,6 +2,5 @@
+ 
+ public class Main {
+     public static void main(String[] args) {
+-        System.out.println("Hello world!");
+     }
+ }
+\ No newline at end of file
+Index: EECS3311-PD1/src/main/java/org/example/wbAPIModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/EECS3311-PD1/src/main/java/org/example/wbAPIModel.java b/EECS3311-PD1/src/main/java/org/example/wbAPIModel.java
+new file mode 100644
+--- /dev/null	(date 1665261023228)
++++ b/EECS3311-PD1/src/main/java/org/example/wbAPIModel.java	(date 1665261023228)
+@@ -0,0 +1,51 @@
++package org.example;
++
++import java.io.IOException;
++import java.net.HttpURLConnection;
++import java.net.URL;
++import java.util.Scanner;
++
++public class wbAPIModel {
++
++    String countryid;
++    String years;
++    String indicatorid;
++    public static void main(String[] strArgs){// The following statement causes the error.
++        wbAPIModel o = new wbAPIModel("CAN", "2000", "SP.POP.TOTL");
++        System.out.println(o.getData(o));
++
++    }
++    public wbAPIModel(String cID, String time, String indID) {
++        countryid = cID;
++        years = time;
++        indicatorid = indID;
++    }
++    public String getData(wbAPIModel input) {
++        String urlformatted = formatString(input);
++        String inline = "";
++        try {
++            URL url = new URL(urlformatted);
++            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
++            conn.setRequestMethod("GET");
++            conn.connect();
++            int responsecode = conn.getResponseCode();
++            if (responsecode == 200) {
++                Scanner sc = new Scanner(url.openStream());
++                while (sc.hasNext()) {
++                    inline += sc.nextLine();
++                    }
++                sc.close();
++                }
++            }
++            catch(Exception e) {
++
++            }
++        return (inline);
++
++    }
++
++    public String formatString(wbAPIModel input) {
++        return (String.format("http://api.worldbank.org/v2/country/%s/indicator/%s?date=%s&format=json", input.countryid, input.indicatorid, input.years));
++    }
++
++}

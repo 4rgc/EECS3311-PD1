@@ -1,2 +1,9 @@
-package Fetchers;public class mortalityRateFetcher {
+package Fetchers;
+
+
+public class MortalityRateFetcher extends AbstractFetcher {
+    public MortalityRateFetcher(String sYear, String eYear, String country) {
+        super(sYear, eYear, country);
+        this.indicatorId = "SH.STA.MMRT";
+    }
 }
