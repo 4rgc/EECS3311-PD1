@@ -1,6 +1,7 @@
 package org.example;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 public class Response implements IResponse{
@@ -20,18 +21,28 @@ public class Response implements IResponse{
         int sizeOfResults = getSize();
 
         for(int i=0; i<sizeOfResults; i++){
-            if(this.jsonArray.get(1).getAsJsonArray().get(i).getAsJsonObject()
-                    .get("date").getAsInt() == year){
-                if (this.jsonArray.get(1).getAsJsonArray().get(i).getAsJsonObject()
-                        .get("value")==null){
-                    return -1.0;
+            if(this.getYear(i) == year){
+                if (this.getValueForIndex(i) == null){
+                    return null;
                 }
-                return this.jsonArray.get(1).getAsJsonArray().get(i).getAsJsonObject()
-                        .get("value").getAsDouble();
+                return this.getValueForIndex(i);
             }
         }
         return null;
     }
+    private int getYear(int i){
+        return this.jsonArray.get(1).getAsJsonArray().get(i).getAsJsonObject().get("date").getAsInt();
+    }
+
+    private Double getValueForIndex(int i){
+        JsonElement result = this.jsonArray.get(1).getAsJsonArray().get(i).getAsJsonObject().get("value");
+        if(!result.isJsonNull()){
+            return result.getAsDouble();
+        }
+        return null;
+    }
+
+
 
     public int getSize(){
         return this.getJsonArray().get(1).getAsJsonArray().size();
