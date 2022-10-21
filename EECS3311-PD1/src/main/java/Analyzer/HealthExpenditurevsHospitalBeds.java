@@ -1,16 +1,33 @@
 package Analyzer;
 
-import Fetchers.HealthExpenditureFetcher;
-import Fetchers.HospitalBedsFetcher;
+import Fetchers.*;
 
 import java.util.Map;
 
-public class HealthExpenditurevsHospitalBeds {
-    protected Map<String, Double> HealthExpenditureData;
-    protected Map<String, Double> HospitalBedsData;
+public class HealthExpenditurevsHospitalBeds extends AbstractAnalyzer{
+    private Map<String, Double> HealthExpenditureData;
+    private Map<String, Double> HospitalBedsData;
 
     public HealthExpenditurevsHospitalBeds(String sYear, String eYear, String country) {
-        this.HealthExpenditureData= (new HealthExpenditureFetcher(sYear, eYear, country)).getData();
-        this.HospitalBedsData= (new HospitalBedsFetcher(sYear, eYear, country)).getData();
+        super(sYear, eYear, country);
     }
+
+    public AnalysisResult recalculate() {
+        String[] labels = new String[2];
+        AbstractFetcher absFetch = new HealthExpenditureFetcher(this.sYear, this.eYear, this.country);
+        this.HealthExpenditureData = absFetch.getData();
+        labels[0] = absFetch.getLabel();
+
+        absFetch = new HospitalBedsFetcher(this.sYear, this.eYear, this.country);
+        this.HospitalBedsData = absFetch.getData();
+        labels[1] = absFetch.getLabel();
+
+        return new AnalysisResult(this.HealthExpenditureData, this.HospitalBedsData, labels);
+    }
+
+    public AnalysisResult recalculate(String sYear, String eYear, String country) {
+        setCountry(country); setsYear(sYear); seteYear(eYear);
+        return this.recalculate();
+    }
+
 }

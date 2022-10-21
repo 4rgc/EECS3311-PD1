@@ -1,19 +1,36 @@
 package Analyzer;
 
-import Fetchers.AirPollutionFetcher;
-import Fetchers.CO2Fetcher;
-import Fetchers.EnergyUseFetcher;
+import Fetchers.*;
 
 import java.util.Map;
 
-public class CO2vsEnergyUsevsAirPollution {
-    protected Map<String, Double> CO2Data;
-    protected Map<String, Double> EnergyUseData;
-    protected Map<String, Double> AirPollutionData;
+public class CO2vsEnergyUsevsAirPollution extends AbstractAnalyzer{
+    private Map<String, Double> CO2Data;
+    private Map<String, Double> EnergyUseData;
+    private Map<String, Double> AirPollutionData;
 
     public CO2vsEnergyUsevsAirPollution(String sYear, String eYear, String country) {
-        this.CO2Data = (new CO2Fetcher(sYear, eYear, country)).getData();
-        this.EnergyUseData = (new EnergyUseFetcher(sYear, eYear, country)).getData();
-        this.AirPollutionData = (new AirPollutionFetcher(sYear, eYear, country)).getData();
+        super(sYear, eYear, country);
+    }
+    public AnalysisResult recalculate() {
+        String[] labels = new String[3];
+        AbstractFetcher absFetch = new CO2Fetcher(this.sYear, this.eYear, this.country);
+        this.CO2Data = absFetch.getData();
+        labels[0] = absFetch.getLabel();
+
+        absFetch = new EnergyUseFetcher(this.sYear, this.eYear, this.country);
+        this.EnergyUseData = absFetch.getData();
+        labels[1] = absFetch.getLabel();
+
+        absFetch = new AirPollutionFetcher(this.sYear, this.eYear, this.country);
+        this.AirPollutionData = absFetch.getData();
+        labels[2] = absFetch.getLabel();
+
+        return new AnalysisResult(this.CO2Data, this.EnergyUseData, this.AirPollutionData, labels);
+    }
+
+    public AnalysisResult recalculate(String sYear, String eYear, String country) {
+        setCountry(country); setsYear(sYear); seteYear(eYear);
+        return this.recalculate();
     }
 }

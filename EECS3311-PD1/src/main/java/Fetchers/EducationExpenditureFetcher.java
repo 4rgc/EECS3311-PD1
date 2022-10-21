@@ -6,4 +6,5 @@ public class EducationExpenditureFetcher extends AbstractFetcher {
         super(sYear, eYear, country);
         this.indicatorID = "SE.XPD.TOTL.GB.ZS";
     }
+    public String getLabel(){return "EducationExpenditure";}
 }

@@ -1,13 +1,31 @@
 package Analyzer;
 
+import Fetchers.AbstractFetcher;
+import Fetchers.AirPollutionFetcher;
 import Fetchers.EducationExpenditureFetcher;
+import Fetchers.ForestAreaFetcher;
+
 import java.util.Map;
 
-public class AverageExpenditureOnEducation {
-    protected Map<String, Double> EducationExpenditureData;
+public class AverageExpenditureOnEducation extends AbstractAnalyzer {
+    private Map<String, Double> EducationExpenditureData;
+
 
     public AverageExpenditureOnEducation(String sYear, String eYear, String country) {
-        this.EducationExpenditureData = (new EducationExpenditureFetcher(sYear, eYear, country)).getData();
+        super(sYear, eYear, country);
     }
 
+    public AnalysisResult recalculate() {
+        String[] labels = new String[1];
+        AbstractFetcher absFetch = new AirPollutionFetcher(this.sYear, this.eYear, this.country);
+        this.EducationExpenditureData = absFetch.getData();
+        labels[0] = absFetch.getLabel();
+
+        return new AnalysisResult(this.EducationExpenditureData, labels);
+    }
+
+    public AnalysisResult recalculate(String sYear, String eYear, String country) {
+        setCountry(country); setsYear(sYear); seteYear(eYear);
+        return this.recalculate();
+    }
 }

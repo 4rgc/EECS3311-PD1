@@ -6,4 +6,5 @@ public class HealthExpenditureFetcher extends AbstractFetcher {
         super(sYear, eYear, country);
         this.indicatorID = "SH.XPD.CHEX.GD.ZS";
     }
+    public String getLabel(){return "HealthExpenditure";}
 }

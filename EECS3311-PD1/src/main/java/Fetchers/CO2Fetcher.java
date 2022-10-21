@@ -11,4 +11,5 @@ public class CO2Fetcher extends AbstractFetcher{
         this.indicatorID = "EN.ATM.CO2E.PC";
     }
 
+    public String getLabel(){return "CO2";}
 }

@@ -6,4 +6,5 @@ public class HospitalBedsFetcher extends AbstractFetcher {
         super(sYear, eYear, country);
         this.indicatorID = "SH.MED.BEDS.ZS";
     }
+    public String getLabel(){return "HospitalBeds";}
 }
