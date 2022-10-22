@@ -1,6 +1,7 @@
 package Analyzer;
 
 import Fetchers.*;
+import org.example.WbApiModel;
 
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public class HealthExpenditurevsHospitalBeds extends AbstractAnalyzer{
         super(sYear, eYear, country);
     }
 
-    public AnalysisResult recalculate() {
+    public AnalysisResult recalculate() throws WbApiModel.WbApiModelException {
         String[] labels = new String[2];
         AbstractFetcher absFetch = new HealthExpenditureFetcher(this.sYear, this.eYear, this.country);
         this.HealthExpenditureData = absFetch.getData();
@@ -25,7 +26,7 @@ public class HealthExpenditurevsHospitalBeds extends AbstractAnalyzer{
         return new AnalysisResult(this.HealthExpenditureData, this.HospitalBedsData, labels);
     }
 
-    public AnalysisResult recalculate(String sYear, String eYear, String country) {
+    public AnalysisResult recalculate(String sYear, String eYear, String country) throws WbApiModel.WbApiModelException {
         setCountry(country); setsYear(sYear); seteYear(eYear);
         return this.recalculate();
     }

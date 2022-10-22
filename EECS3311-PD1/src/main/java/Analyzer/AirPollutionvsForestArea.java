@@ -3,6 +3,7 @@ package Analyzer;
 import Fetchers.AbstractFetcher;
 import Fetchers.AirPollutionFetcher;
 import Fetchers.ForestAreaFetcher;
+import org.example.WbApiModel;
 
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class AirPollutionvsForestArea extends AbstractAnalyzer{
         super(sYear, eYear, country);
     }
 
-    public AnalysisResult recalculate() {
+    public AnalysisResult recalculate() throws WbApiModel.WbApiModelException {
         String[] labels = new String[2];
         AbstractFetcher absFetch = new AirPollutionFetcher(this.sYear, this.eYear, this.country);
         this.AirPollutionData = absFetch.getData();
@@ -27,7 +28,7 @@ public class AirPollutionvsForestArea extends AbstractAnalyzer{
         return new AnalysisResult(this.AirPollutionData, this.ForestAreaData, labels);
     }
 
-    public AnalysisResult recalculate(String sYear, String eYear, String country) {
+    public AnalysisResult recalculate(String sYear, String eYear, String country) throws WbApiModel.WbApiModelException {
         setCountry(country); setsYear(sYear); seteYear(eYear);
         return this.recalculate();
     }

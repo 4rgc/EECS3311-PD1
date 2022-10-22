@@ -1,5 +1,7 @@
 package Analyzer;
 
+import org.example.WbApiModel;
+
 public abstract class AbstractAnalyzer {
     protected String sYear;
     protected String eYear;
@@ -35,7 +37,7 @@ public abstract class AbstractAnalyzer {
         this.country = country;
     }
 
-    public abstract AnalysisResult recalculate();
-    public abstract AnalysisResult recalculate(String sYear, String eYear, String country);
+    public abstract AnalysisResult recalculate() throws WbApiModel.WbApiModelException;
+    public abstract AnalysisResult recalculate(String sYear, String eYear, String country) throws WbApiModel.WbApiModelException;
 
 }

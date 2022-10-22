@@ -68,7 +68,7 @@ public abstract class AbstractFetcher {
         this.country = country;
     }
 
-    public String getIndicatorId(){return this.indicatorId;}
+    public String getIndicatorId(){return this.indicatorID;}
 
     public abstract String getLabel();
 
