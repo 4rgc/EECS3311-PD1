@@ -1,0 +1,25 @@
+Index: EECS3311-PD1/src/main/java/org/example/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example;\r\n\r\nimport Fetchers.*;\r\n\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\npublic class Main {\r\n    public static void main(String[] args) throws Exception {\r\n        \r\n        PopulationFetcher pf = new PopulationFetcher(\"2002\", \"2000\", \"CAN\");\r\n        Map<String, Double> data = new HashMap<String, Double>();\r\n        data = pf.getData();\r\n\r\n        System.out.println(data.get(\"2000\"));\r\n\r\n\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/EECS3311-PD1/src/main/java/org/example/Main.java b/EECS3311-PD1/src/main/java/org/example/Main.java
+--- a/EECS3311-PD1/src/main/java/org/example/Main.java	(revision 529d8271c5bb3ef252e06079f974d1f84a83edfa)
++++ b/EECS3311-PD1/src/main/java/org/example/Main.java	(date 1665597865243)
+@@ -7,14 +7,7 @@
+ 
+ public class Main {
+     public static void main(String[] args) throws Exception {
+-        
+-        PopulationFetcher pf = new PopulationFetcher("2002", "2000", "CAN");
+-        Map<String, Double> data = new HashMap<String, Double>();
+-        data = pf.getData();
+ 
+-        System.out.println(data.get("2000"));
+ 
+-
+-
+     }
+ }

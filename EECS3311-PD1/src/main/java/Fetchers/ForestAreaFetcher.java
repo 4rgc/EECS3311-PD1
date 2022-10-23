@@ -6,4 +6,5 @@ public class ForestAreaFetcher extends AbstractFetcher {
         super(sYear, eYear, country);
         this.indicatorID = "AG.LND.FRST.ZS";
     }
+    public String getLabel(){return "ForestArea";}
 }

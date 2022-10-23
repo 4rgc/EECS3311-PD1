@@ -6,4 +6,5 @@ public class EnergyUseFetcher extends AbstractFetcher {
         super(sYear, eYear, country);
         this.indicatorID = "EG.USE.PCAP.KG.OE";
     }
+    public String getLabel(){return "EnergyUse";}
 }

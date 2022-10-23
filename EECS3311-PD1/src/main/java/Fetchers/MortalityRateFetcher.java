@@ -6,4 +6,5 @@ public class MortalityRateFetcher extends AbstractFetcher {
         super(sYear, eYear, country);
         this.indicatorID = "SH.STA.MMRT";
     }
+    public String getLabel(){return "MortalityRate";}
 }

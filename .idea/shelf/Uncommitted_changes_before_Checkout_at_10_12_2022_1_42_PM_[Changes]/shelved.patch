@@ -1,0 +1,91 @@
+Index: EECS3311-PD1/src/main/java/org/example/WbApiModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example;\r\n\r\nimport java.io.IOException;\r\nimport java.net.HttpURLConnection;\r\nimport java.net.URL;\r\nimport java.util.Scanner;\r\n\r\npublic class WbApiModel implements IWbApiModel{\r\n\r\n    private String urlString;\r\n\r\n    public WbApiModel(){}\r\n\r\n    public Response getData(Request request){\r\n        this.urlString =\r\n                String.format(\r\n                        \"http://api.worldbank.org/v2/country/%s/indicator/%s?date=%s:%s&format=json\",\r\n                        request.getCountry(), request.getIndicatorID(),\r\n                        request.getYearFrom(), request.getYearTo()\r\n                );\r\n        Response r = new Response(this.callAPI());\r\n        return r;\r\n    }\r\n\r\n    public String callAPI() {\r\n        try {\r\n            URL url = new URL(this.urlString);\r\n            HttpURLConnection conn = (HttpURLConnection) url.openConnection();\r\n            conn.setRequestMethod(\"GET\");\r\n            conn.connect();\r\n            int responseCode = conn.getResponseCode();\r\n            String inline = \"\";\r\n            if (responseCode == 200) {\r\n                Scanner sc = new Scanner(url.openStream());\r\n                while (sc.hasNext()) {\r\n                    inline += sc.nextLine();\r\n                }\r\n                sc.close();\r\n            }\r\n            return inline;\r\n        } catch (IOException e) {\r\n            // TODO Auto-generated catch block e.printStackTrace();\r\n        }\r\n        return \"failed callAPI()\";\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/EECS3311-PD1/src/main/java/org/example/WbApiModel.java b/EECS3311-PD1/src/main/java/org/example/WbApiModel.java
+--- a/EECS3311-PD1/src/main/java/org/example/WbApiModel.java	(revision 529d8271c5bb3ef252e06079f974d1f84a83edfa)
++++ b/EECS3311-PD1/src/main/java/org/example/WbApiModel.java	(date 1665596565252)
+@@ -9,8 +9,6 @@
+ 
+     private String urlString;
+ 
+-    public WbApiModel(){}
+-
+     public Response getData(Request request){
+         this.urlString =
+                 String.format(
+Index: EECS3311-PD1/src/main/java/org/example/Response.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example;\r\n\r\nimport com.google.gson.JsonArray;\r\nimport com.google.gson.JsonParser;\r\n\r\npublic class Response implements IResponse{\r\n\r\n    private JsonArray jsonArray;\r\n    public Response(String jsonStringResponse){\r\n\r\n        jsonArray = new JsonParser().parse(jsonStringResponse).getAsJsonArray();\r\n    }\r\n    public Response(){}\r\n\r\n    public JsonArray getJsonArray(){\r\n        return this.jsonArray;\r\n    }\r\n\r\n    public Double getValue(int year){\r\n        int sizeOfResults = getSize();\r\n\r\n        for(int i=0; i<sizeOfResults; i++){\r\n            if(this.jsonArray.get(1).getAsJsonArray().get(i).getAsJsonObject()\r\n                    .get(\"date\").getAsInt() == year){\r\n                if (this.jsonArray.get(1).getAsJsonArray().get(i).getAsJsonObject()\r\n                        .get(\"value\")==null){\r\n                    return -1.0;\r\n                }\r\n                return this.jsonArray.get(1).getAsJsonArray().get(i).getAsJsonObject()\r\n                        .get(\"value\").getAsDouble();\r\n            }\r\n        }\r\n        return -1.0;\r\n    }\r\n\r\n    public int getSize(){\r\n        return this.getJsonArray().get(1).getAsJsonArray().size();\r\n    }\r\n\r\n\r\n\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/EECS3311-PD1/src/main/java/org/example/Response.java b/EECS3311-PD1/src/main/java/org/example/Response.java
+--- a/EECS3311-PD1/src/main/java/org/example/Response.java	(revision 529d8271c5bb3ef252e06079f974d1f84a83edfa)
++++ b/EECS3311-PD1/src/main/java/org/example/Response.java	(date 1665596565258)
+@@ -30,7 +30,7 @@
+                         .get("value").getAsDouble();
+             }
+         }
+-        return -1.0;
++        return null;
+     }
+ 
+     public int getSize(){
+Index: EECS3311-PD1/src/main/java/org/example/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example;\r\n\r\nimport Fetchers.*;\r\n\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\npublic class Main {\r\n    public static void main(String[] args) throws Exception {\r\n        \r\n        PopulationFetcher pf = new PopulationFetcher(\"2002\", \"2000\", \"CAN\");\r\n        Map<String, Double> data = new HashMap<String, Double>();\r\n        data = pf.getData();\r\n\r\n        System.out.println(data.get(\"2000\"));\r\n\r\n\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/EECS3311-PD1/src/main/java/org/example/Main.java b/EECS3311-PD1/src/main/java/org/example/Main.java
+--- a/EECS3311-PD1/src/main/java/org/example/Main.java	(revision 529d8271c5bb3ef252e06079f974d1f84a83edfa)
++++ b/EECS3311-PD1/src/main/java/org/example/Main.java	(date 1665596229210)
+@@ -7,14 +7,7 @@
+ 
+ public class Main {
+     public static void main(String[] args) throws Exception {
+-        
+-        PopulationFetcher pf = new PopulationFetcher("2002", "2000", "CAN");
+-        Map<String, Double> data = new HashMap<String, Double>();
+-        data = pf.getData();
+ 
+-        System.out.println(data.get("2000"));
+ 
+-
+-
+     }
+ }
+Index: EECS3311-PD1/src/main/java/Fetchers/AbstractFetcher.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Fetchers;\r\n\r\nimport org.example.*;\r\n\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\npublic abstract class AbstractFetcher {\r\n\r\n    protected String indicatorId;\r\n    protected String country;\r\n    protected String startYear;\r\n    protected String endYear;\r\n    protected IWbApiModel model;\r\n\r\n    public AbstractFetcher(String sYear, String eYear, String country){\r\n        this.model = new WbApiModel();\r\n        this.country = country;\r\n        this.startYear = sYear;\r\n        this.endYear = eYear;\r\n    }\r\n\r\n    public Map<String, Double> getData(){\r\n        IResponse response = generateResponse();\r\n\r\n        Map<String, Double> data = new HashMap<String, Double>();\r\n        int sizeOfResults = response.getSize();\r\n\r\n        for(int i=0; i<sizeOfResults;i++){\r\n            if (Integer.parseInt(this.startYear)<=Integer.parseInt(this.endYear)){\r\n                data.put(Integer.toString(Integer.parseInt(this.startYear) + i),\r\n                        response.getValue(Integer.parseInt(this.startYear)+ i));\r\n            } else{\r\n                data.put(Integer.toString(Integer.parseInt(this.endYear) + i),\r\n                        response.getValue(Integer.parseInt(this.endYear)+ i));\r\n            }\r\n        }\r\n        return data;\r\n    }\r\n\r\n    private Response generateResponse(){\r\n        Request request = new Request(this.country, this.indicatorId\r\n                , this.startYear, this.endYear);\r\n        return this.model.getData(request);\r\n    }\r\n\r\n    public String getStartYear() {\r\n        return startYear;\r\n    }\r\n\r\n    public void setStartYear(String startYear) {\r\n        this.startYear = startYear;\r\n    }\r\n\r\n    public String getEndYear() {\r\n        return endYear;\r\n    }\r\n\r\n    public void setEndYear(String endYear) {\r\n        this.endYear = endYear;\r\n    }\r\n\r\n    public String getCountry() {\r\n        return country;\r\n    }\r\n\r\n    public void setCountry(String country) {\r\n        this.country = country;\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/EECS3311-PD1/src/main/java/Fetchers/AbstractFetcher.java b/EECS3311-PD1/src/main/java/Fetchers/AbstractFetcher.java
+--- a/EECS3311-PD1/src/main/java/Fetchers/AbstractFetcher.java	(revision 529d8271c5bb3ef252e06079f974d1f84a83edfa)
++++ b/EECS3311-PD1/src/main/java/Fetchers/AbstractFetcher.java	(date 1665596565262)
+@@ -7,7 +7,7 @@
+ 
+ public abstract class AbstractFetcher {
+ 
+-    protected String indicatorId;
++    protected String indicatorID;
+     protected String country;
+     protected String startYear;
+     protected String endYear;
+@@ -39,7 +39,7 @@
+     }
+ 
+     private Response generateResponse(){
+-        Request request = new Request(this.country, this.indicatorId
++        Request request = new Request(this.country, this.indicatorID
+                 , this.startYear, this.endYear);
+         return this.model.getData(request);
+     }

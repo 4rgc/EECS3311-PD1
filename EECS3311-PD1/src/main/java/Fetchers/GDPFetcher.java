@@ -6,4 +6,5 @@ public class GDPFetcher extends AbstractFetcher {
         super(sYear, eYear, country);
         this.indicatorID = "NY.GDP.PCAP.CD";
     }
+    public String getLabel(){return "GDP";}
 }
