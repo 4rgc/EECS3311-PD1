@@ -30,7 +30,7 @@ public abstract class AbstractFetcher {
             if (Integer.parseInt(this.startYear)<=Integer.parseInt(this.endYear)){
                 data.put(Integer.toString(Integer.parseInt(this.startYear) + i),
                         response.getValue(Integer.parseInt(this.startYear)+ i));
-            } else{
+            } else {
                 data.put(Integer.toString(Integer.parseInt(this.endYear) + i),
                         response.getValue(Integer.parseInt(this.endYear)+ i));
             }

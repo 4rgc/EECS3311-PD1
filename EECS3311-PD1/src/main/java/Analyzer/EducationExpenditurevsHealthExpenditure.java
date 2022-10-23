@@ -3,6 +3,8 @@ package Analyzer;
 import Fetchers.*;
 import org.example.WbApiModel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class EducationExpenditurevsHealthExpenditure extends AbstractAnalyzer{
@@ -10,26 +12,23 @@ public class EducationExpenditurevsHealthExpenditure extends AbstractAnalyzer{
     private Map<String, Double> EducationExpenditureData;
     private Map<String, Double> HealthExpenditureData;
 
-    public EducationExpenditurevsHealthExpenditure(String sYear, String eYear, String country) {
-        super(sYear, eYear, country);
+    public EducationExpenditurevsHealthExpenditure(String startYear, String endYear, String country) {
+        super(startYear, endYear, country);
     }
 
     public AnalysisResult recalculate() throws WbApiModel.WbApiModelException {
         String[] labels = new String[2];
-        AbstractFetcher absFetch = new EducationExpenditureFetcher(this.sYear, this.eYear, this.country);
-        this.EducationExpenditureData = absFetch.getData();
-        labels[0] = absFetch.getLabel();
+        AbstractFetcher fetcher = new EducationExpenditureFetcher(this.startYear, this.endYear, this.country);
+        this.EducationExpenditureData = fetcher.getData();
+        labels[0] = fetcher.getLabel();
 
-        absFetch = new HealthExpenditureFetcher(this.sYear, this.eYear, this.country);
-        this.HealthExpenditureData = absFetch.getData();
-        labels[1] = absFetch.getLabel();
+        fetcher = new HealthExpenditureFetcher(this.startYear, this.endYear, this.country);
+        this.HealthExpenditureData = fetcher.getData();
+        labels[1] = fetcher.getLabel();
 
-        return new AnalysisResult(this.EducationExpenditureData, this.HealthExpenditureData, labels);
+        return new AnalysisResult(new ArrayList<>(Arrays.asList(
+                this.EducationExpenditureData,
+                this.HealthExpenditureData
+        )), labels);
     }
-
-    public AnalysisResult recalculate(String sYear, String eYear, String country) throws WbApiModel.WbApiModelException {
-        setCountry(country); setsYear(sYear); seteYear(eYear);
-        return this.recalculate();
-    }
-
 }

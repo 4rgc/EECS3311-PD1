@@ -3,6 +3,8 @@ package Analyzer;
 import Fetchers.*;
 import org.example.WbApiModel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class CO2vsEnergyUsevsAirPollution extends AbstractAnalyzer{
@@ -10,28 +12,27 @@ public class CO2vsEnergyUsevsAirPollution extends AbstractAnalyzer{
     private Map<String, Double> EnergyUseData;
     private Map<String, Double> AirPollutionData;
 
-    public CO2vsEnergyUsevsAirPollution(String sYear, String eYear, String country) {
-        super(sYear, eYear, country);
+    public CO2vsEnergyUsevsAirPollution(String startYear, String endYear, String country) {
+        super(startYear, endYear, country);
     }
     public AnalysisResult recalculate() throws WbApiModel.WbApiModelException {
         String[] labels = new String[3];
-        AbstractFetcher absFetch = new CO2Fetcher(this.sYear, this.eYear, this.country);
-        this.CO2Data = absFetch.getData();
-        labels[0] = absFetch.getLabel();
+        AbstractFetcher fetcher = new CO2Fetcher(this.startYear, this.endYear, this.country);
+        this.CO2Data = fetcher.getData();
+        labels[0] = fetcher.getLabel();
 
-        absFetch = new EnergyUseFetcher(this.sYear, this.eYear, this.country);
-        this.EnergyUseData = absFetch.getData();
-        labels[1] = absFetch.getLabel();
+        fetcher = new EnergyUseFetcher(this.startYear, this.endYear, this.country);
+        this.EnergyUseData = fetcher.getData();
+        labels[1] = fetcher.getLabel();
 
-        absFetch = new AirPollutionFetcher(this.sYear, this.eYear, this.country);
-        this.AirPollutionData = absFetch.getData();
-        labels[2] = absFetch.getLabel();
+        fetcher = new AirPollutionFetcher(this.startYear, this.endYear, this.country);
+        this.AirPollutionData = fetcher.getData();
+        labels[2] = fetcher.getLabel();
 
-        return new AnalysisResult(this.CO2Data, this.EnergyUseData, this.AirPollutionData, labels);
-    }
-
-    public AnalysisResult recalculate(String sYear, String eYear, String country) throws WbApiModel.WbApiModelException {
-        setCountry(country); setsYear(sYear); seteYear(eYear);
-        return this.recalculate();
+        return new AnalysisResult(new ArrayList<>(Arrays.asList(
+                this.CO2Data,
+                this.EnergyUseData,
+                this.AirPollutionData
+        )), labels);
     }
 }

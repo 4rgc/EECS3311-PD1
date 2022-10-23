@@ -3,32 +3,31 @@ package Analyzer;
 import Fetchers.*;
 import org.example.WbApiModel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class HealthExpenditurevsHospitalBeds extends AbstractAnalyzer{
     private Map<String, Double> HealthExpenditureData;
     private Map<String, Double> HospitalBedsData;
 
-    public HealthExpenditurevsHospitalBeds(String sYear, String eYear, String country) {
-        super(sYear, eYear, country);
+    public HealthExpenditurevsHospitalBeds(String startYear, String endYear, String country) {
+        super(startYear, endYear, country);
     }
 
     public AnalysisResult recalculate() throws WbApiModel.WbApiModelException {
         String[] labels = new String[2];
-        AbstractFetcher absFetch = new HealthExpenditureFetcher(this.sYear, this.eYear, this.country);
-        this.HealthExpenditureData = absFetch.getData();
-        labels[0] = absFetch.getLabel();
+        AbstractFetcher fetcher = new HealthExpenditureFetcher(this.startYear, this.endYear, this.country);
+        this.HealthExpenditureData = fetcher.getData();
+        labels[0] = fetcher.getLabel();
 
-        absFetch = new HospitalBedsFetcher(this.sYear, this.eYear, this.country);
-        this.HospitalBedsData = absFetch.getData();
-        labels[1] = absFetch.getLabel();
+        fetcher = new HospitalBedsFetcher(this.startYear, this.endYear, this.country);
+        this.HospitalBedsData = fetcher.getData();
+        labels[1] = fetcher.getLabel();
 
-        return new AnalysisResult(this.HealthExpenditureData, this.HospitalBedsData, labels);
+        return new AnalysisResult(new ArrayList<>(Arrays.asList(
+                this.HealthExpenditureData,
+                this.HospitalBedsData
+        )), labels);
     }
-
-    public AnalysisResult recalculate(String sYear, String eYear, String country) throws WbApiModel.WbApiModelException {
-        setCountry(country); setsYear(sYear); seteYear(eYear);
-        return this.recalculate();
-    }
-
 }

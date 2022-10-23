@@ -6,27 +6,25 @@ import Fetchers.EducationExpenditureFetcher;
 import Fetchers.ForestAreaFetcher;
 import org.example.WbApiModel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class AverageExpenditureOnEducation extends AbstractAnalyzer {
     private Map<String, Double> EducationExpenditureData;
 
-
-    public AverageExpenditureOnEducation(String sYear, String eYear, String country) {
-        super(sYear, eYear, country);
+    public AverageExpenditureOnEducation(String startYear, String endYear, String country) {
+        super(startYear, endYear, country);
     }
 
     public AnalysisResult recalculate() throws WbApiModel.WbApiModelException {
         String[] labels = new String[1];
-        AbstractFetcher absFetch = new EducationExpenditureFetcher(this.sYear, this.eYear, this.country);
-        this.EducationExpenditureData = absFetch.getData();
-        labels[0] = absFetch.getLabel();
+        AbstractFetcher fetcher = new EducationExpenditureFetcher(this.startYear, this.endYear, this.country);
+        this.EducationExpenditureData = fetcher.getData();
+        labels[0] = fetcher.getLabel();
 
-        return new AnalysisResult(this.EducationExpenditureData, labels);
-    }
-
-    public AnalysisResult recalculate(String sYear, String eYear, String country) throws WbApiModel.WbApiModelException {
-        setCountry(country); setsYear(sYear); seteYear(eYear);
-        return this.recalculate();
+        return new AnalysisResult(new ArrayList<>(Arrays.asList(
+                this.EducationExpenditureData
+        )), labels);
     }
 }

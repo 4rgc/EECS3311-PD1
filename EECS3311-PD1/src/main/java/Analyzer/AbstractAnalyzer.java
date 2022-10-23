@@ -3,30 +3,30 @@ package Analyzer;
 import org.example.WbApiModel;
 
 public abstract class AbstractAnalyzer {
-    protected String sYear;
-    protected String eYear;
+    protected String startYear;
+    protected String endYear;
     protected String country;
 
-    AbstractAnalyzer(String sYear, String eYear, String country){
+    AbstractAnalyzer(String startYear, String endYear, String country){
         this.country = country;
-        this.sYear = sYear;
-        this.eYear = eYear;
+        this.startYear = startYear;
+        this.endYear = endYear;
     }
 
-    public String getsYear() {
-        return sYear;
+    public String getStartYear() {
+        return startYear;
     }
 
-    public void setsYear(String sYear) {
-        this.sYear = sYear;
+    public void setStartYear(String startYear) {
+        this.startYear = startYear;
     }
 
-    public String geteYear() {
-        return eYear;
+    public String getEndYear() {
+        return endYear;
     }
 
-    public void seteYear(String eYear) {
-        this.eYear = eYear;
+    public void setEndYear(String endYear) {
+        this.endYear = endYear;
     }
 
     public String getCountry() {
@@ -38,6 +38,8 @@ public abstract class AbstractAnalyzer {
     }
 
     public abstract AnalysisResult recalculate() throws WbApiModel.WbApiModelException;
-    public abstract AnalysisResult recalculate(String sYear, String eYear, String country) throws WbApiModel.WbApiModelException;
-
+    public AnalysisResult recalculate(String startYear, String endYear, String country) throws WbApiModel.WbApiModelException {
+        setCountry(country); setStartYear(startYear); setEndYear(endYear);
+        return this.recalculate();
+    }
 }
