@@ -18,7 +18,7 @@ public class AverageExpenditureOnEducation extends AbstractAnalyzer {
 
     public AnalysisResult recalculate() throws WbApiModel.WbApiModelException {
         String[] labels = new String[1];
-        AbstractFetcher absFetch = new AirPollutionFetcher(this.sYear, this.eYear, this.country);
+        AbstractFetcher absFetch = new EducationExpenditureFetcher(this.sYear, this.eYear, this.country);
         this.EducationExpenditureData = absFetch.getData();
         labels[0] = absFetch.getLabel();
 
