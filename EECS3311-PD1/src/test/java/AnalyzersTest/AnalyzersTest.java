@@ -1,9 +1,9 @@
 package AnalyzersTest;
 
-import Analyzer.AirPollutionvsForestArea;
+import Analyzer.AirPollutionVsForestArea;
 import Analyzer.AnalysisResult;
 import Analyzer.AverageExpenditureOnEducation;
-import Analyzer.CO2vsEnergyUsevsAirPollution;
+import Analyzer.Co2VsEnergyUseVsAirPollution;
 import org.example.WbApiModel;
 import org.junit.jupiter.api.*;
 
@@ -22,7 +22,7 @@ public class AnalyzersTest {
         country = "can";
     }
     @Test
-    void oneParameterAnalysisTest() throws WbApiModel.WbApiModelException {
+    void AverageExpenditureOnEducationAnalysisTest() throws WbApiModel.WbApiModelException {
         AverageExpenditureOnEducation averageEduction = new AverageExpenditureOnEducation(startYear, endYear, country);
         AnalysisResult result = averageEduction.recalculate(startYear, endYear, country);
         Map<String, Double> year1 = new HashMap<String, Double>(result.getValues(Integer.parseInt(startYear)));
@@ -34,8 +34,8 @@ public class AnalyzersTest {
     }
 
     @Test
-    void twoParameterAnalysisTest() throws WbApiModel.WbApiModelException {
-        AirPollutionvsForestArea airVSForest = new AirPollutionvsForestArea(startYear, endYear, country);
+    void AirPollutionVsForestAreaAnalysisTest() throws WbApiModel.WbApiModelException {
+        AirPollutionVsForestArea airVSForest = new AirPollutionVsForestArea(startYear, endYear, country);
         AnalysisResult result = airVSForest.recalculate(startYear, endYear, country);
         Map<String, Double> year1 = new HashMap<String, Double>(result.getValues(Integer.parseInt(startYear)));
         Map<String, Double> year2 = new HashMap<String, Double>(result.getValues(Integer.parseInt(endYear)));
@@ -48,8 +48,8 @@ public class AnalyzersTest {
         Assertions.assertEquals(year2.get(result.getLabels()[1]), 38.7876307080739);
     }
     @Test
-    void threeParameterAnalysisTest() throws WbApiModel.WbApiModelException {
-        CO2vsEnergyUsevsAirPollution co2VSEnergyVsAir = new CO2vsEnergyUsevsAirPollution(startYear, endYear, country);
+    void CO2VsEnergyUseVsAirPollutionAnalysisTest() throws WbApiModel.WbApiModelException {
+        Co2VsEnergyUseVsAirPollution co2VSEnergyVsAir = new Co2VsEnergyUseVsAirPollution(startYear, endYear, country);
         AnalysisResult result = co2VSEnergyVsAir.recalculate(startYear, endYear, country);
         Map<String, Double> year1 = new HashMap<String, Double>(result.getValues(Integer.parseInt(startYear)));
         Map<String, Double> year2 = new HashMap<String, Double>(result.getValues(Integer.parseInt(endYear)));
