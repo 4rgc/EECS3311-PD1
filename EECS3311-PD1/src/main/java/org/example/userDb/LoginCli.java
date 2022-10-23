@@ -16,13 +16,13 @@ public class LoginCli {
     }
 
     public static void main(String[] args) {
-        ISingleTableDatabase<IUser> db = new UserSingleTableDatabase(
-                new LocalJsonTableDataSourceFactory(
-                        "src/main/resources/userdb.json"
+        UserDbModel model = new UserDbModel(
+                new UserSingleTableDatabase(
+                        new LocalJsonTableDataSourceFactory("src/main/resources/userdb.json")
                 )
         );
 
-        String username, password;
+        String username = "", password = "";
 
         System.out.print("Enter your username: ");
 
@@ -39,5 +39,18 @@ public class LoginCli {
         } catch(IOException e) {
             System.out.println("Exception when reading password: " + e.getMessage());
         }
+
+        IUser user = null;
+        try {
+            user = model.getUserByUsername(username);
+        } catch (ISingleTableDatabase.DatabaseException e) {
+            System.out.println("There was an error when trying to log in: " + e.getMessage());
+        }
+
+        if(user == null || !user.getPassword().equals(password)) {
+            System.out.println("Could not log you in: incorrect username or password");
+            return;
+        }
+        System.out.println("Successfully logged in! Welcome, " + username + "!");
     }
 }
