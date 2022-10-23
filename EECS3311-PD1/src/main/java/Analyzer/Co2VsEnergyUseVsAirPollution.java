@@ -7,18 +7,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
-public class CO2vsEnergyUsevsAirPollution extends AbstractAnalyzer{
-    private Map<String, Double> CO2Data;
+public class Co2VsEnergyUseVsAirPollution extends AbstractAnalyzer{
+    private Map<String, Double> Co2Data;
     private Map<String, Double> EnergyUseData;
     private Map<String, Double> AirPollutionData;
 
-    public CO2vsEnergyUsevsAirPollution(String startYear, String endYear, String country) {
+    public Co2VsEnergyUseVsAirPollution(String startYear, String endYear, String country) {
         super(startYear, endYear, country);
     }
     public AnalysisResult recalculate() throws WbApiModel.WbApiModelException {
         String[] labels = new String[3];
-        AbstractFetcher fetcher = new CO2Fetcher(this.startYear, this.endYear, this.country);
-        this.CO2Data = fetcher.getData();
+        AbstractFetcher fetcher = new Co2Fetcher(this.startYear, this.endYear, this.country);
+        this.Co2Data = fetcher.getData();
         labels[0] = fetcher.getLabel();
 
         fetcher = new EnergyUseFetcher(this.startYear, this.endYear, this.country);
@@ -30,7 +30,7 @@ public class CO2vsEnergyUsevsAirPollution extends AbstractAnalyzer{
         labels[2] = fetcher.getLabel();
 
         return new AnalysisResult(new ArrayList<>(Arrays.asList(
-                this.CO2Data,
+                this.Co2Data,
                 this.EnergyUseData,
                 this.AirPollutionData
         )), labels);

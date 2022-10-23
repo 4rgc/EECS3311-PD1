@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
-public class HealthExpenditurevsHospitalBeds extends AbstractAnalyzer{
+public class HealthExpenditureVsHospitalBeds extends AbstractAnalyzer{
     private Map<String, Double> HealthExpenditureData;
     private Map<String, Double> HospitalBedsData;
 
-    public HealthExpenditurevsHospitalBeds(String startYear, String endYear, String country) {
+    public HealthExpenditureVsHospitalBeds(String startYear, String endYear, String country) {
         super(startYear, endYear, country);
     }
 
