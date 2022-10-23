@@ -27,7 +27,7 @@ public class FetchersTest {
     }
     @Test
     void co2Tester() throws WbApiModel.WbApiModelException {
-        CO2Fetcher co2 = new CO2Fetcher(startYear, endYear, country);
+        Co2Fetcher co2 = new Co2Fetcher(startYear, endYear, country);
         Map<String, Double> map = new HashMap<String, Double>(co2.getData());
         Assertions.assertEquals(map.get(startYear), 16.7576264276587);
         Assertions.assertEquals(map.get(endYear), 16.3315689530885);
@@ -55,7 +55,7 @@ public class FetchersTest {
     }
     @Test
     void gdpTester() throws WbApiModel.WbApiModelException {
-        GDPFetcher gdp = new GDPFetcher(startYear, endYear, country);
+        GdpFetcher gdp = new GdpFetcher(startYear, endYear, country);
         Map<String, Double> map = new HashMap<String, Double>(gdp.getData());
         Assertions.assertEquals(map.get(startYear), 24271.0020563821);
         Assertions.assertEquals(map.get(endYear), 23822.0601178964);
@@ -89,9 +89,9 @@ public class FetchersTest {
         Assertions.assertEquals(map.get(endYear), 31020902);
     }
     @Test
-    void problemsIAHCTester() throws WbApiModel.WbApiModelException {
-        ProblemsIAHCFetcher problemsIAHC = new ProblemsIAHCFetcher(startYear, endYear, country);
-        Map<String, Double> map = new HashMap<String, Double>(problemsIAHC.getData());
+    void healthCareAccessProblemsTest() throws WbApiModel.WbApiModelException {
+        HealthCareAccessProblemsFetcher healthCareAccessProblems = new HealthCareAccessProblemsFetcher(startYear, endYear, country);
+        Map<String, Double> map = new HashMap<String, Double>(healthCareAccessProblems.getData());
         Assertions.assertNull(map.get(startYear));
         Assertions.assertNull(map.get(endYear));
     }

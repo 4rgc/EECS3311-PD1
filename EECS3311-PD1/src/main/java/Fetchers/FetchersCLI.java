@@ -14,13 +14,12 @@ public class FetchersCLI {
         String endYear;
         int fetcherValue;
         Map<String, String> countryCodes = new HashMap<String, String>();
-        Class[] numbersToFetcher = new Class[]{AirPollutionFetcher.class, CO2Fetcher.class,
+        Class[] numbersToFetcher = new Class[]{AirPollutionFetcher.class, Co2Fetcher.class,
                                                EducationExpenditureFetcher.class, EnergyUseFetcher.class,
-                                               ForestAreaFetcher.class, GDPFetcher.class, HealthExpenditureFetcher.class,
+                                               ForestAreaFetcher.class, GdpFetcher.class, HealthExpenditureFetcher.class,
                                                HospitalBedsFetcher.class, MortalityRateFetcher.class, PopulationFetcher.class,
-                                               ProblemsIAHCFetcher.class};
+                                               HealthCareAccessProblemsFetcher.class};
 
-        System.out.println(CO2Fetcher.class.getSimpleName());
         initializeCountryCodes(countryCodes);
 
         Scanner scanner = new Scanner(System.in);

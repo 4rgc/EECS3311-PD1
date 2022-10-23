@@ -15,11 +15,11 @@ public class AnalyzerCLI {
         String endYear;
         int analyzerValue;
         Map<String, String> countryCodes = new HashMap<String, String>();
-        Class[] numbersToAnalyzer = new Class[] {AirPollutionvsForestArea.class,
+        Class[] numbersToAnalyzer = new Class[] {AirPollutionVsForestArea.class,
                                                  AverageExpenditureOnEducation.class, AverageForestArea.class,
-                                                 CO2vsEnergyUsevsAirPollution.class, CO2vsGDPperCap.class,
-                                                 EducationExpenditurevsHealthExpenditure.class, HealthExpenditurevsHospitalBeds.class,
-                                                 ProblemsIAHCvsMortalityRate.class};
+                                                 Co2VsEnergyUseVsAirPollution.class, Co2VsGdpPerCap.class,
+                                                 EducationExpenditureVsHealthExpenditure.class, HealthExpenditureVsHospitalBeds.class,
+                                                 HealthCareAccessProblemsVsMortalityRate.class};
 
         initializeCountryCodes(countryCodes);
         Scanner scanner = new Scanner(System.in);
@@ -49,7 +49,7 @@ public class AnalyzerCLI {
         Constructor constructor = classOfAnalyzers.getConstructor(String.class, String.class, String.class);
         Object object = constructor.newInstance(startYear, endYear, country);
         AbstractAnalyzer analyzer = (AbstractAnalyzer) object;
-        AnalysisResult result = analyzer.recalculate(analyzer.getsYear(), analyzer.geteYear(), analyzer.getCountry());
+        AnalysisResult result = analyzer.recalculate(analyzer.getStartYear(), analyzer.getEndYear(), analyzer.getCountry());
         dateToConsole(result, startYear, endYear);
     }
 
