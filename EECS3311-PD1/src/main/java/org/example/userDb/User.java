@@ -1,9 +1,13 @@
 package org.example.userDb;
 
+import java.util.Objects;
+
 public class User implements IUser {
     private final String key;
     private String username;
     private String password;
+
+    private User(String key) { this.key = key; }
 
     public User(IRecord record) throws ClassCastException {
         this.key = record.getKey();
@@ -34,5 +38,26 @@ public class User implements IUser {
     @Override
     public void setPassword(String newPassword) {
         this.password = newPassword;
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        super.clone();
+        User newUser = new User(this.key);
+        newUser.username = this.username;
+        newUser.password = this.password;
+        return newUser;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return key.equals(user.key) && username.equals(user.username) && password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(key, username, password);
     }
 }

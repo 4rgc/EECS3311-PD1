@@ -1,3 +1,5 @@
+package userDb;
+
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import org.example.userDb.IRecord;
