@@ -1,6 +1,6 @@
 package org.example.userDb;
 
-public interface IUser extends IDbRecord {
+public interface IUser extends IDbRecord, Cloneable {
     String getUsername();
 
     void setUsername(String username);
