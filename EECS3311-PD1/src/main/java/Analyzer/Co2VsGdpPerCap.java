@@ -10,8 +10,6 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class Co2VsGdpPerCap extends AbstractAnalyzer{
-    private Map<String, Double> Co2Data;
-    private Map<String, Double> GdpPerCapData;
 
     public Co2VsGdpPerCap(String sYear, String eYear, String country) {
         super(sYear, eYear, country);
@@ -20,16 +18,16 @@ public class Co2VsGdpPerCap extends AbstractAnalyzer{
     public AnalysisResult recalculate() throws WbApiModel.WbApiModelException {
         String[] labels = new String[2];
         AbstractFetcher fetcher = new Co2Fetcher(this.startYear, this.endYear, this.country);
-        this.Co2Data = fetcher.getData();
+        Map<String, Double> co2Data = fetcher.getData();
         labels[0] = fetcher.getLabel();
 
         fetcher = new GdpFetcher(this.startYear, this.endYear, this.country);
-        this.GdpPerCapData = fetcher.getData();
+        Map<String, Double> gdpPerCapData = fetcher.getData();
         labels[1] = fetcher.getLabel();
 
         return new AnalysisResult(new ArrayList<>(Arrays.asList(
-                this.Co2Data,
-                this.GdpPerCapData
+                co2Data,
+                gdpPerCapData
         )), labels);
     }
 }
