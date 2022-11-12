@@ -7,56 +7,72 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #171717;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.Login.LoginViewController">
+<BorderPane
+        minHeight="400.0"
+        maxHeight="400.0"
+        minWidth="600.0"
+        maxWidth="600.0"
+        style="-fx-background-color: #171717;"
+        xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="UI.Login.LoginViewController"
+>
    <left>
-      <AnchorPane prefHeight="400.0" prefWidth="271.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="209.0" fitWidth="219.0" layoutX="26.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Song-Wang.jpg" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
+      <VBox alignment="CENTER">
+         <padding>
+            <Insets left="20"/>
+         </padding>
+         <ImageView fitHeight="209.0" fitWidth="219.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../Song-Wang.jpg" />
+         </ImageView>
+      </VBox>
    </left>
    <right>
-      <AnchorPane prefHeight="400.0" prefWidth="298.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label layoutX="14.0" layoutY="142.0" prefHeight="39.0" prefWidth="111.0" text="Username" textFill="#ab9f9f">
+      <VBox alignment="CENTER">
+         <padding>
+            <Insets right="20" />
+         </padding>
+         <GridPane BorderPane.alignment="CENTER" hgap="10" vgap="5">
+            <Label text="Username" textFill="#ab9f9f" GridPane.columnIndex="0" GridPane.rowIndex="0">
                <font>
                   <Font name="Calibri Bold" size="22.0" />
                </font>
             </Label>
-            <Label layoutX="14.0" layoutY="181.0" prefHeight="39.0" prefWidth="111.0" text="Password" textFill="#ab9f9f">
-               <font>
-                  <Font name="Calibri Bold" size="22.0" />
-               </font>
-            </Label>
-            <PasswordField fx:id="passwordTF" layoutX="125.0" layoutY="188.0" style="-fx-background-color: #7b7474;">
+            <TextField fx:id="usernameTF" onAction="#onUsernameChange" style="-fx-background-color: #7b7474;" GridPane.columnIndex="1" GridPane.rowIndex="0">
                <effect>
                   <DropShadow>
                      <color>
-                        <Color red="0.5394737124443054" green="0.4945175349712372" blue="0.4945175349712372" />
-                     </color>
-                  </DropShadow>
-               </effect>
-            </PasswordField>
-            <TextField fx:id="usernameTF" layoutX="125.0" layoutY="149.0" onAction="#onUsernameChange" style="-fx-background-color: #7b7474;">
-               <effect>
-                  <DropShadow>
-                     <color>
-                        <Color red="0.6184210777282715" green="0.5840643048286438" blue="0.5840643048286438" />
+                        <Color red="0.61" green="0.58" blue="0.58"/>
                      </color>
                   </DropShadow>
                </effect>
             </TextField>
-            <Button layoutX="126.0" layoutY="249.0" mnemonicParsing="false" onAction="#onLoginClick" style="-fx-background-radius: 500; -fx-background-color: #7b7474;" text="Login" textFill="WHITE" />
-         </children>
-      </AnchorPane>
+            <Label text="Password" textFill="#ab9f9f" GridPane.columnIndex="0" GridPane.rowIndex="1">
+               <font>
+                  <Font name="Calibri Bold" size="22.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="passwordTF" style="-fx-background-color: #7b7474;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color red="0.53" green="0.49" blue="0.49"/>
+                     </color>
+                  </DropShadow>
+               </effect>
+            </PasswordField>
+
+            <HBox GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2" alignment="CENTER">
+               <Button onAction="#onLoginClick" style="-fx-background-radius: 500; -fx-background-color: #7b7474;" text="Login" textFill="WHITE"/>
+            </HBox>
+         </GridPane>
+      </VBox>
    </right>
 </BorderPane>
