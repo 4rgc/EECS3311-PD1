@@ -1,28 +1,47 @@
 package UI;
 
+import UI.Login.LoginView;
 import javafx.application.Application;
-import javafx.scene.Parent;
+import javafx.event.Event;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Objects;
 
 public class Main extends Application {
+    private Stage stage;
+
+    private void showLoginScene() {
+        LoginView loginView = new LoginView();
+        loginView.setOnLoginSuccessful(this::loginSucceeded);
+
+        this.stage.setMinHeight(400);
+        this.stage.setMaxHeight(400);
+        this.stage.setMinWidth(600);
+        this.stage.setMaxWidth(600);
+
+        Scene loginScene = new Scene(loginView);
+        stage.setScene(loginScene);
+        stage.show();
+    }
+
+    private void hideLoginScene() {
+        stage.hide();
+        stage.setScene(null);
+    }
+
+    public void loginSucceeded(Event event) {
+        System.out.println("Login successful!");
+        try {
+            this.stage.hide();
+            stop();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
-    public void start(Stage stage) throws IOException {
-        Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/LoginView.fxml")));
-
-        Scene scene = new Scene(pane);
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage stage) {
+        this.stage = stage;
+        showLoginScene();
     }
 
     public static void main(String[] args) {
