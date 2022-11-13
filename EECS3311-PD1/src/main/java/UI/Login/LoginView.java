@@ -10,11 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import org.example.userDb.LocalJsonTableDataSourceFactory;
-import org.example.userDb.UserDbModel;
-import org.example.userDb.UserSingleTableDatabase;
+import org.example.userDb.*;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class LoginView extends VBox {
     static public class LoginSuccessfulEvent extends Event {
@@ -34,7 +33,10 @@ public class LoginView extends VBox {
     public LoginView() {
         model = new UserDbModel(
                 new UserSingleTableDatabase(
-                        new LocalJsonTableDataSourceFactory("userdb.json")
+                        new LocalJsonTableDataSourceFactory(
+                                Objects.requireNonNull(
+                                        getClass().getResource("/userdb.json")).getPath()
+                        )
                 )
         );
 
@@ -75,7 +77,24 @@ public class LoginView extends VBox {
 
     @FXML
     public void onLoginClick(ActionEvent actionEvent) {
-        if(onLoginSuccessful != null)
-            onLoginSuccessful.handle(new LoginSuccessfulEvent(new EventType<>(EventType.ROOT)));
+        try {
+            IUser user = model.getUserByUsername(usernameTF.getText());
+
+            if(user == null) {
+                //TODO: display a message that username or password is incorrect
+                return;
+            }
+
+            if(!user.getPassword().equals(passwordTF.getText())) {
+                //TODO: display a message that username or password is incorrect
+                return;
+            }
+
+            if(onLoginSuccessful != null)
+                onLoginSuccessful.handle(new LoginSuccessfulEvent(new EventType<>(EventType.ROOT)));
+        } catch (ISingleTableDatabase.DatabaseException e) {
+            //TODO: Display a modal with the error message
+            throw new RuntimeException(e);
+        }
     }
 }
