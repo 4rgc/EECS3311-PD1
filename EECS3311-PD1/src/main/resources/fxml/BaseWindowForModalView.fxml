@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.Modal.BaseWindowForModalViewController">
+   <children>
+      <VBox alignment="CENTER" layoutX="220.0" layoutY="128.0" prefHeight="145.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="NoneModalButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleOpenAlertNoneModal" prefHeight="25.0" prefWidth="155.0" text="Alert None Modal" />
+            <Button fx:id="ConfirmationModalButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleOpenAlertConfirmationModal" prefHeight="25.0" prefWidth="155.0" text="Alert Confirmation Modal" />
+            <Button fx:id="ErrorModalButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleOpenAlertErrorModal" prefHeight="25.0" prefWidth="155.0" text="Alert Error Modal" />
+            <Button fx:id="InformationButtonModal" alignment="CENTER" mnemonicParsing="false" onAction="#handleOpenAlertInfoModal" prefHeight="25.0" prefWidth="155.0" text="Alert Information Modal" />
+            <Button fx:id="WarningModalButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleOpenAlertWarningModal" prefHeight="25.0" prefWidth="155.0" text="Alert Warning Modal" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
