@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="UI.Menu.TopMenuViewController"
+            fx:id="topMenuView"
+            prefHeight="400.0" prefWidth="600.0"
+            alignment="TOP_CENTER">
+
+    <Label text="Choose a Country: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+
+    <MenuBar fx:id="menuBar1" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-background-color: #e7e7e7">
+        <Menu text="Country">
+            <items>
+                <MenuItem text="ARG" onAction="#CountrySelected"/>
+                <MenuItem text="BRA" onAction="#CountrySelected"/>
+                <MenuItem text="CAN" onAction="#CountrySelected"/>
+                <MenuItem text="CHN" onAction="#CountrySelected"/>
+                <MenuItem text="FRA" onAction="#CountrySelected"/>
+                <MenuItem text="IND" onAction="#CountrySelected"/>
+                <MenuItem text="ITA" onAction="#CountrySelected"/>
+                <MenuItem text="JPN" onAction="#CountrySelected"/>
+                <MenuItem text="MEX" onAction="#CountrySelected"/>
+                <MenuItem text="PRT" onAction="#CountrySelected"/>
+                <MenuItem text="USA" onAction="#CountrySelected"/>
+            </items>
+        </Menu>
+    </MenuBar>
+
+    <Label text="From: " GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+    <MenuBar fx:id="menuBar2" GridPane.columnIndex="3" GridPane.rowIndex="0" style="-fx-background-color: grey">
+        <Menu text="Select Year">
+        </Menu>
+    </MenuBar>
+
+    <Label text="To: " GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+    <MenuBar fx:id="menuBar3" GridPane.columnIndex="5" GridPane.rowIndex="0" style="-fx-background-color: grey">
+        <Menu text="Select Year">
+        </Menu>
+    </MenuBar>
+
+</GridPane>
