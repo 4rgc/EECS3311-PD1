@@ -31,6 +31,16 @@ public class BaseWindowForModalViewController extends Application {
         launch(args);
     }
 
+    /*
+     * Essentially to make a modal all you have to do is in the
+     * onAction method that is connected to the button the user uses
+     * create an alert of the type you want (NONE, Confirmation, Error, Information, or Warning)
+     * and initialize the modality for the alert to Modality.APPLICATION_MODAL to make it so that the
+     * user cannot interact with any other windows until dealing with the modal.
+     * Keep in mind that the alert of type NONE requires us to specify the buttontype in its constructor
+     * in order to be able to close the modal - if you don't then the modal cannot be closed.
+     */
+
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
