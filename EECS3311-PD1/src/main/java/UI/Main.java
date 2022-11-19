@@ -8,6 +8,21 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    /*
+        To use ReportViewController:
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ReportView.fxml"));
+        Parent pane = loader.load();
+        this.reportViewController = loader.getController();
+        AbstractAnalyzer analyzer = new Co2VsEnergyUseVsAirPollution(
+                "2015", "2021", "CAN"
+        );
+        AnalysisResult result = analyzer.recalculate(analyzer.getStartYear(), analyzer.getEndYear(), analyzer.getCountry());
+        this.reportViewController.setResult(result);
+        String r = this.reportViewController.generateReport(2015, 2021, analyzer.getClass().getSimpleName());
+        this.reportViewController.showReport(r);
+
+     */
     @Override
     public void start(Stage stage) {
         String javaVersion = System.getProperty("java.version");
