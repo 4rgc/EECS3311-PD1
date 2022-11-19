@@ -1,13 +1,19 @@
 package UI;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import UI.BottomMenuView.SelectedChartEvent;
 
+import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
-public class MainPane {
+public class MainPane implements Initializable {
     public Label selectedChartsLabel;
     public Label selectedAnalysisLabel;
     public Label recalculatePressesLabel;
@@ -51,10 +57,6 @@ public class MainPane {
         return analysisToCharts;
     }
 
-    public MainPane() {
-//        bottomMenu.setAvailableAnalyses(Arrays.stream(arrayOfAnalysis).toList());
-    }
-
     public void onChartAdded(SelectedChartEvent event) {
         System.out.println(event.getChartName() + " added");
     }
@@ -65,5 +67,17 @@ public class MainPane {
 
     public void onRecalculatePressed(ActionEvent actionEvent) {
         System.out.println("recalculate pressed");
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        bottomMenu.setAvailableAnalyses(Arrays.stream(arrayOfAnalysis).toList());
+        bottomMenu.availableAnalyses.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                System.out.println("old: " + oldValue + ", new: " + newValue);
+                bottomMenu.setAvailableCharts(Arrays.stream(analysisToChartsHelper().get(newValue)).toList());
+            }
+        });
     }
 }
