@@ -2,20 +2,21 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.HBox?>
 
-<BorderPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.BottomMenuView.BottomMenuViewController">
-   <bottom>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Available Views:" />
-          <ChoiceBox fx:id="typesOfChartViews" prefHeight="25.0" prefWidth="140.0" />
-          <Button fx:id="addChartView" mnemonicParsing="false" onAction="#addChartToListOfViews" prefHeight="25.0" prefWidth="30.0" text="+" />
-          <Button fx:id="removeChartView" mnemonicParsing="false" onAction="#removeChartToListOfViews" prefHeight="25.0" prefWidth="30.0" text="-" />
-          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose analysis method:" />
-          <ChoiceBox fx:id="typesOfAnalysis" prefHeight="25.0" prefWidth="171.0" />
-          <Button fx:id="recalculateButton" mnemonicParsing="false" onAction="#recalculate" text="Recalculate" />
-      </ToolBar>
-   </bottom>
-</BorderPane>
+<fx:root type="HBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Available Views:" />
+      <ChoiceBox fx:id="typesOfChartViews" prefHeight="25.0" prefWidth="140.0" />
+      <Button fx:id="addChartBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="+" >
+            <!-- <onAction>#addChartToListOfViews</onAction> - initialized in controller -->
+      </Button>
+      <Button fx:id="removeChartBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="-" >
+            <!-- <onAction>#removeChartToListOfViews</onAction> - initialized in controller -->
+      </Button>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose analysis method:" />
+      <ChoiceBox fx:id="typesOfAnalysis" prefHeight="25.0" prefWidth="171.0" />
+      <Button fx:id="recalculateBtn" mnemonicParsing="false" text="Recalculate" >
+            <!-- <onAction>#recalculate</onAction> - initialized in controller -->
+      </Button>
+</fx:root>
