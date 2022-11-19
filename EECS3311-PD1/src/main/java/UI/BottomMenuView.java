@@ -12,15 +12,13 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class BottomMenuView extends HBox {
     @FXML
-    public ChoiceBox<String> typesOfChartViews = new ChoiceBox<>();
+    public ChoiceBox<String> availableCharts;
     @FXML
-    public ChoiceBox<String> typesOfAnalyses = new ChoiceBox<>();
+    public ChoiceBox<String> availableAnalyses;
 
     @FXML
     public Button addChartBtn;
@@ -52,12 +50,11 @@ public class BottomMenuView extends HBox {
     }
 
     public void addChartToListOfViews(ActionEvent actionEvent) {
-//        addChartView.setOnAction(this::addIfNotIn);
-        propertyOnChartAdded.get().handle(new SelectedChartEvent(typesOfChartViews.getValue(), EventType.ROOT));
+        propertyOnChartAdded.get().handle(new SelectedChartEvent(availableCharts.getValue(), EventType.ROOT));
     }
 
     public void removeChartFromListOfViews(ActionEvent actionEvent) {
-        propertyOnChartRemoved.get().handle(new SelectedChartEvent(typesOfChartViews.getValue(), EventType.ROOT));
+        propertyOnChartRemoved.get().handle(new SelectedChartEvent(availableCharts.getValue(), EventType.ROOT));
     }
 
     public void recalculate(ActionEvent actionEvent) {
@@ -123,7 +120,7 @@ public class BottomMenuView extends HBox {
 
     public final void setAvailableCharts(List<String> charts) {
         propertyAvailableCharts.set(charts);
-        typesOfChartViews.setItems(FXCollections.observableList(charts));
+        availableCharts.setItems(FXCollections.observableList(charts));;
     }
 
     public final List<String> getAvailableCharts() {
@@ -138,7 +135,7 @@ public class BottomMenuView extends HBox {
 
     public final void setAvailableAnalyses(List<String> analyses) {
         propertyAvailableAnalyses.set(analyses);
-        typesOfAnalyses.setItems(FXCollections.observableList(analyses));
+        availableAnalyses.setItems(FXCollections.observableList(analyses));
     }
 
     public final List<String> getAvailableAnalyses() {

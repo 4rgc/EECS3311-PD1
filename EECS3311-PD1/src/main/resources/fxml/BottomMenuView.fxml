@@ -5,18 +5,21 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.HBox?>
 
+<?import javafx.scene.control.ToolBar?>
 <fx:root type="HBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Available Views:" />
-      <ChoiceBox fx:id="typesOfChartViews" prefHeight="25.0" prefWidth="140.0" />
-      <Button fx:id="addChartBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="+" >
-            <!-- <onAction>#addChartToListOfViews</onAction> - initialized in controller -->
-      </Button>
-      <Button fx:id="removeChartBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="-" >
-            <!-- <onAction>#removeChartToListOfViews</onAction> - initialized in controller -->
-      </Button>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose analysis method:" />
-      <ChoiceBox fx:id="typesOfAnalysis" prefHeight="25.0" prefWidth="171.0" />
-      <Button fx:id="recalculateBtn" mnemonicParsing="false" text="Recalculate" >
-            <!-- <onAction>#recalculate</onAction> - initialized in controller -->
-      </Button>
+      <ToolBar>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Available Views:" />
+            <ChoiceBox fx:id="availableCharts" prefHeight="25.0" prefWidth="140.0" />
+            <Button fx:id="addChartBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="+" >
+                  <!-- <onAction>#addChartToListOfViews</onAction> - initialized in controller -->
+            </Button>
+            <Button fx:id="removeChartBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="-" >
+                  <!-- <onAction>#removeChartToListOfViews</onAction> - initialized in controller -->
+            </Button>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose analysis method:" />
+            <ChoiceBox fx:id="availableAnalyses" prefHeight="25.0" prefWidth="171.0" />
+            <Button fx:id="recalculateBtn" mnemonicParsing="false" text="Recalculate" >
+                  <!-- <onAction>#recalculate</onAction> - initialized in controller -->
+            </Button>
+      </ToolBar>
 </fx:root>
