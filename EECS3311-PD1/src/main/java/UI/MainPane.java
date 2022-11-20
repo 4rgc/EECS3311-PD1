@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import UI.BottomMenuView.SelectedChartEvent;
+import UI.BottomMenuView.RecalculateEvent;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -65,7 +66,7 @@ public class MainPane implements Initializable {
         System.out.println(event.getChartName() + " removed");
     }
 
-    public void onRecalculatePressed(ActionEvent actionEvent) {
+    public void onRecalculatePressed(RecalculateEvent event) {
         System.out.println("recalculate pressed");
     }
 

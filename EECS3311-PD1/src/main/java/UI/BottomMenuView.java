@@ -58,7 +58,8 @@ public class BottomMenuView extends HBox {
     }
 
     public void recalculate(ActionEvent actionEvent) {
-
+        propertyOnRecalculatePressed.get().handle
+                (new RecalculateEvent(availableAnalyses.getValue(), availableCharts.getValue(), EventType.ROOT));
     }
 
     static public class SelectedChartEvent extends Event {
@@ -74,7 +75,24 @@ public class BottomMenuView extends HBox {
         }
     }
 
+    static public class RecalculateEvent extends Event {
+        private String analysisName;
+        private String chartName;
+
+        public RecalculateEvent(String analysisName, String chartName, EventType<? extends Event> eventType) {
+            super(eventType);
+            this.analysisName = analysisName;
+            this.chartName = chartName;
+        }
+    }
+
+    //Object Property for the chart added button.
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
     private ObjectProperty<EventHandler<SelectedChartEvent>> propertyOnChartAdded = new SimpleObjectProperty<>();
+
+    public final ObjectProperty<EventHandler<SelectedChartEvent>> onChartAddedProperty() {
+        return propertyOnChartAdded;
+    }
 
     public final void setOnChartAdded(EventHandler<SelectedChartEvent> handler) {
         propertyOnChartAdded.set(handler);
@@ -83,7 +101,11 @@ public class BottomMenuView extends HBox {
     public final EventHandler<SelectedChartEvent> getOnChartAdded() {
         return propertyOnChartAdded.get();
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    //Object Property for the chart removed button.
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
     private ObjectProperty<EventHandler<SelectedChartEvent>> propertyOnChartRemoved = new SimpleObjectProperty<>();
 
     public final ObjectProperty<EventHandler<SelectedChartEvent>> onChartRemovedProperty() {
@@ -97,21 +119,29 @@ public class BottomMenuView extends HBox {
     public final EventHandler<SelectedChartEvent> getOnChartRemoved() {
         return propertyOnChartRemoved.get();
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private ObjectProperty<EventHandler<ActionEvent>> propertyOnRecalculatePressed = new SimpleObjectProperty<>();
 
-    public final ObjectProperty<EventHandler<ActionEvent>> onRecalculatePressedProperty() {
+    //Object Property for the recalculate button.
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private ObjectProperty<EventHandler<RecalculateEvent>> propertyOnRecalculatePressed = new SimpleObjectProperty<>();
+
+    public final ObjectProperty<EventHandler<RecalculateEvent>> onRecalculatePressedProperty() {
         return propertyOnRecalculatePressed;
     }
 
-    public final void setOnRecalculatePressed(EventHandler<ActionEvent> handler) {
+    public final void setOnRecalculatePressed(EventHandler<RecalculateEvent> handler) {
         propertyOnRecalculatePressed.set(handler);
     }
 
-    public final EventHandler<ActionEvent> getOnRecalculatePressed() {
+    public final EventHandler<RecalculateEvent> getOnRecalculatePressed() {
         return propertyOnRecalculatePressed.get();
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    //Object property for the available chart list.
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
     private ObjectProperty<List<String>> propertyAvailableCharts = new SimpleObjectProperty<>();
 
     public final ObjectProperty<List<String>> availableChartsProperty() {
@@ -126,7 +156,11 @@ public class BottomMenuView extends HBox {
     public final List<String> getAvailableCharts() {
         return propertyAvailableCharts.get();
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    //Object property for the available analysis list.
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
     private ObjectProperty<List<String>> propertyAvailableAnalyses = new SimpleObjectProperty<>();
 
     public final ObjectProperty<List<String>> availableAnalysesProperty() {
@@ -141,4 +175,5 @@ public class BottomMenuView extends HBox {
     public final List<String> getAvailableAnalyses() {
         return propertyAvailableAnalyses.get();
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
