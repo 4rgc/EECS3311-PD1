@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.HBox?>
+
+<fx:root type="HBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ToolBar prefHeight="40.0" prefWidth="400.0">
+         <items>
+            <Label text="Choose a Country: " />
+            <ChoiceBox fx:id="availableCountries" prefHeight="26.0" prefWidth="63.0" />
+            <Label prefHeight="17.0" prefWidth="37.0" text="From: " />
+            <ChoiceBox fx:id="availableFromYears" prefHeight="26.0" prefWidth="67.0" />
+            <Label text="To: " />
+            <ChoiceBox fx:id="availableToYears" prefHeight="26.0" prefWidth="63.0" />
+         </items>
+      </ToolBar>
+   </children>
+</fx:root>
