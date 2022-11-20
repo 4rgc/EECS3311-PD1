@@ -7,6 +7,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+
     @Override
     public void start(Stage stage) {
         String javaVersion = System.getProperty("java.version");
