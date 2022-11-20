@@ -67,7 +67,7 @@ public class MainPane implements Initializable {
     }
 
     public void onRecalculatePressed(RecalculateEvent event) {
-        System.out.println("recalculate pressed");
+        System.out.println("recalculate pressed for " + event.getAnalysisName() + " with graph " + event.getChartName());
     }
 
     @Override

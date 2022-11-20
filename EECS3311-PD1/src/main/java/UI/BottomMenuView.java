@@ -84,6 +84,22 @@ public class BottomMenuView extends HBox {
             this.analysisName = analysisName;
             this.chartName = chartName;
         }
+
+        public String getAnalysisName() {
+            return analysisName;
+        }
+
+        public void setAnalysisName(String analysisName) {
+            this.analysisName = analysisName;
+        }
+
+        public String getChartName() {
+            return chartName;
+        }
+
+        public void setChartName(String chartName) {
+            this.chartName = chartName;
+        }
     }
 
     //Object Property for the chart added button.
