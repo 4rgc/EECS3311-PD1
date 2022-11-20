@@ -23,6 +23,6 @@
     </center>
     <bottom>
         <BottomMenuView
-                fx:id="bottomMenu" onChartAdded="#onChartAdded" onChartRemoved="#onChartRemoved" onRecalculatePressed="#onRecalculatePressed" />
+                fx:id="bottomMenu" onChartAdded="#onChartAdded" onChartRemoved="#onChartRemoved" onRecalculateClicked="#onRecalculateClicked" />
     </bottom>
 </BorderPane>

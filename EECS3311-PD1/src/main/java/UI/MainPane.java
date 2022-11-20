@@ -66,8 +66,8 @@ public class MainPane implements Initializable {
         System.out.println(event.getChartName() + " removed");
     }
 
-    public void onRecalculatePressed(RecalculateEvent event) {
-        System.out.println("recalculate pressed for " + event.getAnalysisName() + " with graph " + event.getChartName());
+    public void onRecalculateClicked(RecalculateEvent event) {
+        System.out.println("Recalculate clicked for " + event.getAnalysisName());
     }
 
     @Override
@@ -76,7 +76,6 @@ public class MainPane implements Initializable {
         bottomMenu.availableAnalyses.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                System.out.println("old: " + oldValue + ", new: " + newValue);
                 bottomMenu.setAvailableCharts(Arrays.stream(analysisToChartsHelper().get(newValue)).toList());
             }
         });

@@ -58,8 +58,8 @@ public class BottomMenuView extends HBox {
     }
 
     public void recalculate(ActionEvent actionEvent) {
-        propertyOnRecalculatePressed.get().handle
-                (new RecalculateEvent(availableAnalyses.getValue(), availableCharts.getValue(), EventType.ROOT));
+        propertyOnRecalculateClicked.get().handle
+                (new RecalculateEvent(availableAnalyses.getValue(), EventType.ROOT));
     }
 
     static public class SelectedChartEvent extends Event {
@@ -77,29 +77,16 @@ public class BottomMenuView extends HBox {
 
     static public class RecalculateEvent extends Event {
         private String analysisName;
-        private String chartName;
 
-        public RecalculateEvent(String analysisName, String chartName, EventType<? extends Event> eventType) {
+        public RecalculateEvent(String analysisName, EventType<? extends Event> eventType) {
             super(eventType);
             this.analysisName = analysisName;
-            this.chartName = chartName;
         }
 
         public String getAnalysisName() {
             return analysisName;
         }
 
-        public void setAnalysisName(String analysisName) {
-            this.analysisName = analysisName;
-        }
-
-        public String getChartName() {
-            return chartName;
-        }
-
-        public void setChartName(String chartName) {
-            this.chartName = chartName;
-        }
     }
 
     //Object Property for the chart added button.
@@ -140,18 +127,18 @@ public class BottomMenuView extends HBox {
 
     //Object Property for the recalculate button.
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private ObjectProperty<EventHandler<RecalculateEvent>> propertyOnRecalculatePressed = new SimpleObjectProperty<>();
+    private ObjectProperty<EventHandler<RecalculateEvent>> propertyOnRecalculateClicked = new SimpleObjectProperty<>();
 
-    public final ObjectProperty<EventHandler<RecalculateEvent>> onRecalculatePressedProperty() {
-        return propertyOnRecalculatePressed;
+    public final ObjectProperty<EventHandler<RecalculateEvent>> onRecalculateClickedProperty() {
+        return propertyOnRecalculateClicked;
     }
 
-    public final void setOnRecalculatePressed(EventHandler<RecalculateEvent> handler) {
-        propertyOnRecalculatePressed.set(handler);
+    public final void setOnRecalculateClicked(EventHandler<RecalculateEvent> handler) {
+        propertyOnRecalculateClicked.set(handler);
     }
 
-    public final EventHandler<RecalculateEvent> getOnRecalculatePressed() {
-        return propertyOnRecalculatePressed.get();
+    public final EventHandler<RecalculateEvent> getOnRecalculateClicked() {
+        return propertyOnRecalculateClicked.get();
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
