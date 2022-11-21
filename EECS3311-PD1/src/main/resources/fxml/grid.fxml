@@ -8,8 +8,8 @@
 
 <fx:root type="GridPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml">
-    <AnchorPane fx:id="topLeft" prefHeight="200.0" prefWidth="300.0" />
-    <AnchorPane fx:id="topRight" prefHeight="200.0" prefWidth="300.0" GridPane.columnIndex="1" />
-    <AnchorPane fx:id="bottomLeft" prefHeight="200.0" prefWidth="300.0" GridPane.rowIndex="1" />
-    <AnchorPane fx:id="bottomRight" prefHeight="200.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <AnchorPane fx:id="topLeft"/>
+    <AnchorPane fx:id="topRight" GridPane.columnIndex="1" />
+    <AnchorPane fx:id="bottomLeft" GridPane.rowIndex="1" />
+    <AnchorPane fx:id="bottomRight" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 </fx:root>
