@@ -6,10 +6,12 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import org.example.userDb.*;
 
 import java.io.IOException;
@@ -81,20 +83,30 @@ public class LoginView extends VBox {
             IUser user = model.getUserByUsername(usernameTF.getText());
 
             if(user == null) {
-                //TODO: display a message that username or password is incorrect
+                showUserNameOrPasswordWarning();
                 return;
             }
 
             if(!user.getPassword().equals(passwordTF.getText())) {
-                //TODO: display a message that username or password is incorrect
+                showUserNameOrPasswordWarning();
                 return;
             }
 
             if(onLoginSuccessful != null)
                 onLoginSuccessful.handle(new LoginSuccessfulEvent(new EventType<>(EventType.ROOT)));
         } catch (ISingleTableDatabase.DatabaseException e) {
-            //TODO: Display a modal with the error message
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("Unexpected exception occurred:\n" + e.getMessage());
+            alert.showAndWait();
             throw new RuntimeException(e);
         }
+    }
+
+    private static void showUserNameOrPasswordWarning() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setContentText("Username or Password is incorrect. Please try again.");
+        alert.showAndWait();
     }
 }
