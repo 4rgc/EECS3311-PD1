@@ -4,8 +4,8 @@ import Analyzer.AnalysisResult;
 
 public class ReportView extends AnalysisView {
 
-    public ReportView(String viewType, AnalysisResult data) {
-        super(viewType, data);
+    public ReportView(AnalysisResult data) {
+        super("Report", data);
 
         this.node = new Report(data);
     }
