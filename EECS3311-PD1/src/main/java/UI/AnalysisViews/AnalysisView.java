@@ -48,4 +48,8 @@ public abstract class AnalysisView {
     }
 
     public abstract void rerender();
+
+    public Node getNode() {
+        return node;
+    }
 }
