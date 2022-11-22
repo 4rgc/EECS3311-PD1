@@ -8,7 +8,8 @@ public class BarChartView extends XYChartView {
     public BarChartView(AnalysisResult data) {
         super("Bar Chart", data);
 
-        BarChart<Number, Number> chart = new BarChart<>(xAxis, yAxis);
+        BarChart<String, Number> chart = new BarChart<>(xAxis, yAxis);
+
         chart.getData().addAll(seriesData);
 
         node = chart;
@@ -16,7 +17,7 @@ public class BarChartView extends XYChartView {
 
     @Override
     public void rerender() {
-        BarChart<Number, Number> chart = (BarChart<Number, Number>) node;
+        BarChart<String, Number> chart = (BarChart<String, Number>) node;
         chart.getData().clear();
         chart.getData().addAll(this.seriesData);
     }

@@ -1,6 +1,7 @@
 package UI.AnalysisViews;
 
 import Analyzer.AnalysisResult;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
@@ -9,14 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class XYChartView extends AnalysisView {
-    protected List<XYChart.Series<Number,Number>> seriesData;
-    protected NumberAxis xAxis;
+    protected List<XYChart.Series<String,Number>> seriesData;
+    protected CategoryAxis xAxis;
     protected NumberAxis yAxis;
 
     public XYChartView(String viewType, AnalysisResult data) {
         super(viewType, data);
 
-        xAxis = new NumberAxis();
+        xAxis = new CategoryAxis();
         yAxis = new NumberAxis();
 
         // TODO: add labels to axes
@@ -32,19 +33,19 @@ public abstract class XYChartView extends AnalysisView {
         this.seriesData = getDataAsSeriesList(data.getLabels());
     }
 
-    private List<XYChart.Series<Number, Number>> getDataAsSeriesList(String[] labels) {
-        List<XYChart.Series<Number,Number>> seriesList = new ArrayList<>();
+    private List<XYChart.Series<String, Number>> getDataAsSeriesList(String[] labels) {
+        List<XYChart.Series<String,Number>> seriesList = new ArrayList<>();
 
         for (String label:
                 labels) {
-            XYChart.Series<Number, Number> series = new XYChart.Series<>();
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
             Map<Integer,Double> yearToValue = this.data.get(label);
 
             series.setName(label);
 
             for (Integer year:
                     yearToValue.keySet()) {
-                series.getData().add(new XYChart.Data<>(year, yearToValue.get(year)));
+                series.getData().add(new XYChart.Data<>(year.toString(), yearToValue.get(year)));
             }
 
             seriesList.add(series);
