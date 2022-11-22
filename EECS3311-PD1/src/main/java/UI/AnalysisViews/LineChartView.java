@@ -5,10 +5,10 @@ import javafx.scene.chart.LineChart;
 
 public class LineChartView extends XYChartView {
 
-    public LineChartView(AnalysisResult result) {
-        super("Line Chart", result);
+    public LineChartView(AnalysisResult data) {
+        super("Line Chart", data);
 
-        LineChart<Number,Number> chart = new LineChart<>(xAxis, yAxis);
+        LineChart<String,Number> chart = new LineChart<>(xAxis, yAxis);
         chart.getData().addAll(this.seriesData);
 
         node = chart;
@@ -16,7 +16,7 @@ public class LineChartView extends XYChartView {
 
     @Override
     public void rerender() {
-        LineChart<Number, Number> chart = (LineChart<Number, Number>) node;
+        LineChart<String, Number> chart = (LineChart<String, Number>) node;
         chart.getData().clear();
         chart.getData().addAll(this.seriesData);
     }
