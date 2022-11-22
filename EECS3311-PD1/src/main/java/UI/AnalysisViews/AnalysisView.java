@@ -24,7 +24,8 @@ public abstract class AnalysisView {
 
             for (String year: rawDataForLabel.keySet()) {
                 Integer intYear = Integer.parseInt(year);
-                series.put(intYear, rawDataForLabel.get(year));
+                if(rawDataForLabel.get(year) != null)
+                    series.put(intYear, rawDataForLabel.get(year));
             }
 
             seriesMap.put(labels[i], series);

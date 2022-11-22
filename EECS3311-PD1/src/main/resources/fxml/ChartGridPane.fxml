@@ -14,7 +14,7 @@
             >
 
             <top>
-                <TopMenuView fx:id="TopMenu"/>
+                <TopMenuView fx:id="TopMenu" onCountryOrYearsSelected="#onCountryOrYearsSelected"/>
             </top>
 
             <center>
