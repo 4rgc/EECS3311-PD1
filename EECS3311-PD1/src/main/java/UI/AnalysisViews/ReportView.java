@@ -8,6 +8,9 @@ public class ReportView extends AnalysisView {
         super("Report", data);
 
         this.node = new Report(data);
+
+        // TODO: use analysis type name
+        ((Report)this.node).generateReport("Analysis Result");
     }
 
     @Override
