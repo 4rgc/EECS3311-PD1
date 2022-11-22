@@ -4,8 +4,8 @@ package UI;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -13,10 +13,10 @@ import static org.apache.maven.surefire.shared.lang3.ObjectUtils.isEmpty;
 
 public class Grid extends GridPane {
 
-    public AnchorPane topLeft;
-    public AnchorPane topRight;
-    public AnchorPane bottomLeft;
-    public AnchorPane bottomRight;
+    public VBox topLeft;
+    public VBox topRight;
+    public VBox bottomLeft;
+    public VBox bottomRight;
 
     Node[] nodeArray;
 
@@ -56,7 +56,7 @@ public class Grid extends GridPane {
                 else if (i == 2) {
                     bottomLeft.getChildren().add(node);
                 }
-                else if (i == 3) {
+                else {
                     bottomRight.getChildren().add(node);
                 }
                 return GRID_POINT.values()[i];
