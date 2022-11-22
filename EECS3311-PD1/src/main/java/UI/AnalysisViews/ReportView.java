@@ -1,6 +1,8 @@
 package UI.AnalysisViews;
 
 import Analyzer.AnalysisResult;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 public class ReportView extends AnalysisView {
 
@@ -11,6 +13,7 @@ public class ReportView extends AnalysisView {
 
         // TODO: use analysis type name
         ((Report)this.node).generateReport("Analysis Result");
+        VBox.setVgrow(node, Priority.ALWAYS);
     }
 
     @Override
@@ -24,6 +27,6 @@ public class ReportView extends AnalysisView {
     public void rerender() {
         Report report = (Report) node;
         // TODO: use analysis type name
-        ((Report) node).generateReport("Analysis Result");
+        report.generateReport("Analysis Result");
     }
 }
