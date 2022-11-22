@@ -6,9 +6,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<?import UI.TopMenuView?>
+<?import UI.Grid?>
+<?import UI.BottomMenuView?>
+<fx:root type="BorderPane" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
+            >
 
-</AnchorPane>
+            <top>
+                <TopMenuView fx:id="TopMenu"/>
+            </top>
+
+            <center>
+                <Grid fx:id="Grid"/>
+            </center>
+
+            <bottom>
+                <BottomMenuView fx:id="BottomMenu" onChartAdded="#onChartAdded" onChartRemoved="#onChartRemoved" onRecalculateClicked="#onRecalculateClicked"/>
+            </bottom>
+
+</fx:root>
