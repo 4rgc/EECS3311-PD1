@@ -2,8 +2,6 @@ package UI;
 
 import Analyzer.*;
 import UI.AnalysisViews.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -12,19 +10,79 @@ import javafx.stage.Modality;
 import org.example.WbApiModel;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.*;
 
 import static UI.AnalysisViews.AnalysisViewFactory.createAnalysisView;
-import static UI.Grid.GRID_POINT.*;
 
 public class ChartGridPane extends BorderPane implements Initializable {
+    static final private String[] arrayOfAnalysis = {"Air Pollution vs Forest Area", "Average Expenditure On Education",
+            "Average Forest Area", "CO2 vs Energy Use vs Air Pollution",
+            "CO2 vs GDP per Capita", "Education Expenditure vs Health Expenditure",
+            "Health Care Access Problems vs Mortality Rate",
+            "Health Expenditure vs Hospital Beds", "Public Sector Employment Share Male vs Female"};
+
+
+    static final private String[] Countries = {"BRA", "CAN", "CHN", "FRA", "IND", "ITA", "JPN", "MEX", "PRT", "USA"};
+
+    static final private Map<String, String[]> analysisToCharts = new HashMap<>();
+    static final private Map<String, Class<? extends AbstractAnalyzer>> analyzerTypesToClasses = new HashMap<>();
+
+    static {
+        analyzerTypesToClasses.put("Air Pollution vs Forest Area", AirPollutionVsForestArea.class);
+        analyzerTypesToClasses.put("Average Expenditure On Education", AverageExpenditureOnEducation.class);
+        analyzerTypesToClasses.put("Average Forest Area", AverageForestArea.class);
+        analyzerTypesToClasses.put("CO2 vs Energy Use vs Air Pollution", Co2VsEnergyUseVsAirPollution.class);
+        analyzerTypesToClasses.put("CO2 vs GDP per Capita", Co2VsGdpPerCap.class);
+        analyzerTypesToClasses.put("Education Expenditure vs Health Expenditure", EducationExpenditureVsHealthExpenditure.class);
+        analyzerTypesToClasses.put("Health Care Access Problems vs Mortality Rate", HealthCareAccessProblemsVsMortalityRate.class);
+        analyzerTypesToClasses.put("Health Expenditure vs Hospital Beds", HealthExpenditureVsHospitalBeds.class);
+        analyzerTypesToClasses.put("Public Sector Employment Share Male vs Female", PublicSectorEmploymentShareMaleVsFemale.class);
+
+
+        analysisToCharts.put("Air Pollution vs Forest Area",
+                new String[]{"Bar Chart", "Line Chart", "Scatter Chart", "Report"});
+
+        analysisToCharts.put("Average Expenditure On Education",
+                new String[]{"Bar Chart", "Line Chart", "Scatter Chart", "Report"});
+
+        analysisToCharts.put("Average Forest Area",
+                new String[]{"Bar Chart", "Line Chart", "Scatter Chart", "Report"});
+
+        analysisToCharts.put("CO2 vs Energy Use vs Air Pollution",
+                new String[]{"Bar Chart", "Line Chart", "Scatter Chart", "Report"});
+
+        analysisToCharts.put("CO2 vs GDP per Capita",
+                new String[]{"Bar Chart", "Line Chart", "Scatter Chart", "Report"});
+
+        analysisToCharts.put("Education Expenditure vs Health Expenditure",
+                new String[]{"Bar Chart", "Line Chart", "Scatter Chart", "Report"});
+
+        analysisToCharts.put("Health Care Access Problems vs Mortality Rate",
+                new String[]{"Bar Chart", "Line Chart", "Scatter Chart", "Report"});
+
+        analysisToCharts.put("Health Expenditure vs Hospital Beds",
+                new String[]{"Bar Chart", "Line Chart", "Scatter Chart", "Report"});
+
+        analysisToCharts.put("Public Sector Employment Share Male vs Female",
+                new String[]{"Bar Chart", "Line Chart", "Pie Chart", "Scatter Chart", "Report"});
+    }
+
+
+    private String yearFromSelected;
+    private String yearToSelected;
+    private String countrySelected;
+
+    private AnalysisResult result;
+
+    private Map<Grid.GRID_POINT, AnalysisView> views;
+
     public TopMenuView TopMenu;
-    public UI.Grid Grid;
+    public UI.Grid grid;
     public BottomMenuView BottomMenu;
     public List<AnalysisView>  viewList = new ArrayList<>();
-    public AnalysisResult result;
-    public List<UI.Grid.GRID_POINT> Deathrow = new ArrayList<>();;
 
     public ChartGridPane() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
@@ -38,224 +96,104 @@ public class ChartGridPane extends BorderPane implements Initializable {
             throw new RuntimeException(exception);
         }
     }
-    public void clearGrid() {
-        if (!Grid.topLeft.getChildren().isEmpty()) {
-            Grid.removeNode(TOP_LEFT);
+
+    public void onRecalculateClicked(BottomMenuView.RecalculateEvent event) throws
+            NoSuchMethodException,
+            InvocationTargetException,
+            InstantiationException,
+            IllegalAccessException,
+            WbApiModel.WbApiModelException {
+        if (yearFromSelected == null ||
+            yearToSelected == null ||
+            countrySelected == null ||
+            event.getAnalysisName() == null) {
+            showWarning("Following fields are required to recalculate: Country, From, To, Analysis method");
+            return;
         }
-        if (!Grid.topRight.getChildren().isEmpty()) {
-            Grid.removeNode(UI.Grid.GRID_POINT.TOP_RIGHT);
-        }
-        if (!Grid.bottomRight.getChildren().isEmpty()) {
-            Grid.removeNode(UI.Grid.GRID_POINT.BOTTOM_RIGHT);
-        }
-        if (!Grid.bottomLeft.getChildren().isEmpty()) {
-            Grid.removeNode(UI.Grid.GRID_POINT.BOTTOM_LEFT);
-        }
-
-    }
-
-    public void onRecalculateClicked(BottomMenuView.RecalculateEvent event){
-        clearGrid();
-
-        Deathrow.clear();
-        if (TopMenu.availableFromYears.getValue() == null || TopMenu.availableToYears.getValue() == null || TopMenu.availableCountries.getValue() == null ||
-                BottomMenu.availableAnalyses.getValue() == null) {
-            showWarning("Missing a field");
-        }
-        else {
-            for (AnalysisView view:viewList) {
-                try {
-                    switch (view.getViewType()) {
-                        case "Bar Chart":
-                            BarChartView bar = new BarChartView(result);
-                            Grid.addNode(bar.getNode());
-                            break;
-
-                        case "Line Chart":
-                            LineChartView line = new LineChartView(result);
-                            Grid.addNode(line.getNode());
-                            break;
-
-                        case "Pie Chart":
-                            PieChartView pie = new PieChartView(result);
-                            Grid.addNode(pie.getNode());
-                            break;
-
-                        case "Report":
-                            ReportView report = new ReportView(result);
-                            Grid.addNode(report.getNode());
-                            break;
-
-                        case "Scatter Chart":
-                            ScatterChartView scatter = new ScatterChartView(result);
-                            Grid.addNode(scatter.getNode());
-                            break;
-                    }
-                } catch (Exception e) {
-                    throw new RuntimeException();
-                }
+        for (AnalysisView view:
+             views.values()) {
+            if(!Arrays.stream(analysisToCharts.get(event.getAnalysisName())).toList().contains(view.getViewType())) {
+                removeView(view.getViewType());
             }
-            if(Deathrow.size() > 0)
-                for (UI.Grid.GRID_POINT position: Deathrow) {
-                    Grid.removeNode(position);
-                }
         }
-
-    }
-
-    public void onChartAdded(BottomMenuView.SelectedChartEvent event) {
-        for (AnalysisView view:viewList) {
-            if(view.getViewType().equals(event.getChartName())) {
-                showWarning("Trying to add duplicate view");
+        if(views.values().stream().map(AnalysisView::getViewType).toList().contains("Pie Chart")) {
+            if(!yearToSelected.equals(yearFromSelected)) {
+                showWarning("Cannot display a Pie Chart when more then year range is > 1");
                 return;
             }
         }
 
-        if (TopMenu.availableFromYears.getValue() == null || TopMenu.availableToYears.getValue() == null || TopMenu.availableCountries.getValue() == null ||
-                BottomMenu.availableAnalyses.getValue() == null || BottomMenu.availableCharts.getValue() == null) {
-            showWarning("Missing a field");
-        }
-        else {
-            try {
-                switch (BottomMenu.availableAnalyses.getValue()) {
-                    case "Air Pollution vs Forest Area":
-                        result = new AirPollutionVsForestArea(TopMenu.availableFromYears.getValue(),
-                                TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                        break;
+        Class<? extends AbstractAnalyzer> analyzerClass = analyzerTypesToClasses.get(event.getAnalysisName());
+        Constructor<? extends AbstractAnalyzer> analyzerConstructor = analyzerClass.getConstructor(
+                String.class, String.class, String.class
+        );
+        AbstractAnalyzer analyzer = analyzerConstructor.newInstance(yearFromSelected, yearToSelected, countrySelected);
 
-                    case "Average Expenditure On Education":
-                        result = new AverageExpenditureOnEducation(TopMenu.availableFromYears.getValue(),
-                                TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                        break;
+        result = analyzer.recalculate();
 
-                    case "Average Forest Area":
-                        result = new AverageForestArea(TopMenu.availableFromYears.getValue(),
-                                TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                        break;
-
-                    case "CO2 vs Energy Use vs Air Pollution":
-                        result = new Co2VsEnergyUseVsAirPollution(TopMenu.availableFromYears.getValue(),
-                                TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                        break;
-
-                    case "CO2 vs GDP per Capita":
-                        result = new Co2VsGdpPerCap(TopMenu.availableFromYears.getValue(),
-                                TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                        break;
-
-                    case "Education Expenditure vs Health Expenditure":
-                        result = new EducationExpenditureVsHealthExpenditure(TopMenu.availableFromYears.getValue(),
-                                TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                        break;
-
-                    case "Health Care Access Problems vs Mortality Rate":
-                        result = new HealthCareAccessProblemsVsMortalityRate(TopMenu.availableFromYears.getValue(),
-                                TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                        break;
-
-                    case "Health Expenditure vs Hospital Beds":
-                        result = new HealthExpenditureVsHospitalBeds(TopMenu.availableFromYears.getValue(),
-                                TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                        break;
-                }
-
-                AnalysisView newView = createAnalysisView(event.getChartName(), result);
-                viewList.add(newView);
-                System.out.println(viewList);
+        for(AnalysisView view: views.values()) {
+            if(view != null){
+                view.setData(result);
+                view.rerender();
             }
-
-            catch (Exception e) {
-                throw new RuntimeException();
-            }
-
         }
+    }
+
+    public void onChartAdded(BottomMenuView.SelectedChartEvent event) throws Exception {
+        for (AnalysisView view:views.values()) {
+            if(view.getViewType().equals(event.getChartName())) {
+                showWarning("View is already shown on the screen");
+                return;
+            }
+        }
+
+        if (result == null) {
+            // TODO: display a label saying `no data to show`
+            showWarning("No data to show");
+            return;
+        }
+
+        if(event.getChartName().equals("Pie Chart") && !yearToSelected.equals(yearFromSelected)) {
+            showWarning("Cannot display a Pie Chart when more then year range is > 1");
+            return;
+        }
+
+        AnalysisView newView = createAnalysisView(event.getChartName(), result);
+        if(newView.getNode() == null) {
+            showWarning("Data retrieved from the API was null");
+            return;
+        }
+        viewList.add(newView);
+        Grid.GRID_POINT location = grid.addNode(newView.getNode());
+
+        views.put(location, newView);
     }
 
     public void onChartRemoved(BottomMenuView.SelectedChartEvent event) {
-        System.out.println("test");
-        for (int i = 0; i < viewList.size(); i++) {
-            if(viewList.get(i).getViewType().equals(BottomMenu.availableCharts.getValue())) {
-                System.out.println("test41");
-                viewList.remove(i);
-                switch(i) {
-                    case 0:
-                        Deathrow.add(TOP_LEFT);
-                        break;
-                    case 1:
-                        Deathrow.add(TOP_RIGHT);
-                        break;
-                    case 2:
-                        Deathrow.add(BOTTOM_LEFT);
-                        break;
-                    case 3:
-                        Deathrow.add(BOTTOM_RIGHT);
-                        break;
-                }
+        String chartName = event.getChartName();
+        removeView(chartName);
+    }
+
+    private void removeView(String viewName) {
+        Grid.GRID_POINT toRemove = null;
+        for (Grid.GRID_POINT location :
+                views.keySet()) {
+            if(views.get(location).getViewType().equals(viewName)) {
+                grid.removeNode(location);
+                toRemove = location;
+                break;
             }
+        }
+
+        if(toRemove != null) {
+            views.remove(toRemove);
         }
     }
 
-    public void onCountryOrYearsSelected(TopMenuView.CountryOrYearsSelectedEvent event) throws WbApiModel.WbApiModelException {
-        for (AnalysisView view:viewList) {
-            switch (BottomMenu.availableAnalyses.getValue()) {
-                case "Air Pollution vs Forest Area":
-                    result = new AirPollutionVsForestArea(TopMenu.availableFromYears.getValue(),
-                            TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                            view.setData(result);
-                    break;
-
-                case "Average Expenditure On Education":
-                    result = new AverageExpenditureOnEducation(TopMenu.availableFromYears.getValue(),
-                            TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                            view.setData(result);
-                    break;
-
-                case "Average Forest Area":
-                    result = new AverageForestArea(TopMenu.availableFromYears.getValue(),
-                            TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                            view.setData(result);
-                            view.rerender();
-                    break;
-
-                case "CO2 vs Energy Use vs Air Pollution":
-                    result = new Co2VsEnergyUseVsAirPollution(TopMenu.availableFromYears.getValue(),
-                            TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                            view.setData(result);
-                            view.rerender();
-                    break;
-
-                case "CO2 vs GDP per Capita":
-                    result = new Co2VsGdpPerCap(TopMenu.availableFromYears.getValue(),
-                            TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                            view.setData(result);
-                            view.rerender();
-                    break;
-
-                case "Education Expenditure vs Health Expenditure":
-                    result = new EducationExpenditureVsHealthExpenditure(TopMenu.availableFromYears.getValue(),
-                            TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                            view.setData(result);
-                            view.rerender();
-                    break;
-
-                case "Health Care Access Problems vs Mortality Rate":
-                    result = new HealthCareAccessProblemsVsMortalityRate(TopMenu.availableFromYears.getValue(),
-                            TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                            view.setData(result);
-                            view.rerender();
-                    break;
-
-                case "Health Expenditure vs Hospital Beds":
-                    result = new HealthExpenditureVsHospitalBeds(TopMenu.availableFromYears.getValue(),
-                            TopMenu.availableToYears.getValue(), TopMenu.availableCountries.getValue()).recalculate();
-                            view.setData(result);
-                            view.rerender();
-                    break;
-            }
-
-            AnalysisView newView = createAnalysisView(view.getViewType(), result);
-            System.out.println(viewList);
-        }
+    public void onCountryOrYearsSelected(TopMenuView.CountryOrYearsSelectedEvent event) {
+        yearFromSelected = event.getFromYear();
+        yearToSelected = event.getToYear();
+        countrySelected = event.getCountry();
     }
 
     private static void showWarning(String warning) {
@@ -268,32 +206,25 @@ public class ChartGridPane extends BorderPane implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        int minYear = 1990, maxYear = 2021;
 
-        String[] arrayOfAnalysis = {"Air Pollution vs Forest Area", "Average Expenditure On Education",
-                "Average Forest Area", "CO2 vs Energy Use vs Air Pollution",
-                "CO2 vs GDP per Capita", "Education Expenditure vs Health Expenditure",
-                "Health Care Access Problems vs Mortality Rate",
-                "Health Expenditure vs Hospital Beds"};
-
-        String[] arrayOfCharts = {"Bar Chart", "Line Chart", "Pie Chart", "Report", "Scatter Chart"};
-        String[] Countries = {"BRA", "CAN", "CHN", "FRA", "IND", "ITA", "JPN", "MEX", "PRT", "USA"};
-
+        views = new HashMap<>();
         TopMenu.setAvailableCountries(Arrays.stream(Countries).toList());
-        TopMenu.setAvailableFromYears(Arrays.stream(generateYears(1990, 2021)).toList());
-        TopMenu.availableFromYears.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
-            System.out.println("old: " + oldValue + ", new: " + newValue);
-            int newYearStart = Integer.parseInt(newValue);
-            TopMenu.setAvailableToYears(Arrays.stream(generateYears(newYearStart, 2021)).toList());
-        });
+        TopMenu.setAvailableFromYears(Arrays.stream(generateYears(minYear, maxYear)).toList());
+        TopMenu.availableFromYears.getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldValue, newValue) -> {
+                    System.out.println("old: " + oldValue + ", new: " + newValue);
+                    int newYearStart = Integer.parseInt(newValue);
+                    TopMenu.setAvailableToYears(Arrays.stream(generateYears(newYearStart, 2021)).toList());
+            }
+        );
 
         BottomMenu.setAvailableAnalyses(Arrays.stream(arrayOfAnalysis).toList());
 
-        BottomMenu.availableAnalyses.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                BottomMenu.setAvailableCharts(Arrays.stream(analysisToChartsHelper().get(newValue)).toList());
-            }
-        });
+        BottomMenu.availableAnalyses.getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldValue, newValue) ->
+                        BottomMenu.setAvailableCharts(Arrays.stream(analysisToCharts.get(newValue)).toList())
+        );
     }
 
     private String[] generateYears(int startYear, int endYear){
@@ -304,33 +235,5 @@ public class ChartGridPane extends BorderPane implements Initializable {
             years[i-startYear]=Integer.toString(i);
         }
         return years;
-    }
-    private Map<String, String[]> analysisToChartsHelper() {
-        Map<String, String[]> analysisToCharts = new HashMap<>();
-        analysisToCharts.put("Air Pollution vs Forest Area",
-                new String[]{"Bar Chart", "Line Chart", "Pie Chart", "Report", "Scatter Chart"});
-
-        analysisToCharts.put("Average Expenditure On Education",
-                new String[]{"Bar Chart", "Line Chart", "Pie Chart", "Report"});
-
-        analysisToCharts.put("Average Forest Area",
-                new String[]{"Bar Chart", "Line Chart", "Pie Chart"});
-
-        analysisToCharts.put("CO2 vs Energy Use vs Air Pollution",
-                new String[]{"Bar Chart", "Line Chart"});
-
-        analysisToCharts.put("CO2 vs GDP per Capita",
-                new String[]{"Bar Chart"});
-
-        analysisToCharts.put("Education Expenditure vs Health Expenditure",
-                new String[]{"Bar Chart", "Line Chart"});
-
-        analysisToCharts.put("Health Care Access Problems vs Mortality Rate",
-                new String[]{"Bar Chart", "Line Chart", "Pie Chart"});
-
-        analysisToCharts.put("Health Expenditure vs Hospital Beds",
-                new String[]{"Bar Chart", "Line Chart", "Pie Chart", "Report"});
-
-        return analysisToCharts;
     }
 }
