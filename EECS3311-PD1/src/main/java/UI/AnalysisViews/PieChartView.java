@@ -3,9 +3,7 @@ package UI.AnalysisViews;
 import Analyzer.AnalysisResult;
 import javafx.scene.chart.PieChart;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PieChartView extends AnalysisView {
     private List<PieChart.Data> chartData;
@@ -18,6 +16,11 @@ public class PieChartView extends AnalysisView {
 
         List<PieChart.Data> chartData = getDataAsPieChartData(labels);
 
+        if(chartData.isEmpty()){
+            node = null;
+            return;
+        }
+
         chart.getData().addAll(chartData);
 
         node = chart;
@@ -26,12 +29,12 @@ public class PieChartView extends AnalysisView {
     private List<PieChart.Data> getDataAsPieChartData(String[] labels) {
         List<PieChart.Data> chartData = new ArrayList<>();
 
-        // TODO: display multiple labels for a single year only
-        Map<Integer, Double> yearToValue = this.data.get(labels[0]);
-
-        for (Integer year:
-                yearToValue.keySet()) {
-            chartData.add(new PieChart.Data(year.toString(), yearToValue.get(year)));
+        for (String label:
+             labels) {
+            List<Double> values = this.data.get(label).values().stream().toList();
+            if(values.get(0) == null)
+                return new ArrayList<>();
+            chartData.add(new PieChart.Data(label, values.get(0)));
         }
         return chartData;
     }

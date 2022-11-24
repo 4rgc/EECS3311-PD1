@@ -1,6 +1,7 @@
 package UI.AnalysisViews;
 
 import Analyzer.AnalysisResult;
+import javafx.collections.FXCollections;
 import javafx.scene.chart.BarChart;
 
 public class BarChartView extends XYChartView {
@@ -19,6 +20,6 @@ public class BarChartView extends XYChartView {
     public void rerender() {
         BarChart<String, Number> chart = (BarChart<String, Number>) node;
         chart.getData().clear();
-        chart.getData().addAll(this.seriesData);
+        chart.setData(FXCollections.observableList(seriesData));
     }
 }

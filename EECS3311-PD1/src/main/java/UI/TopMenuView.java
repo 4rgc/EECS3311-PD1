@@ -71,8 +71,9 @@ public class TopMenuView extends HBox implements Initializable {
     }
 
     private void countryOrYearsSelected(ActionEvent actionEvent) {
-        propertyOnCountryOrYearsSelected.get().handle(new CountryOrYearsSelectedEvent(
-                availableCountries.getValue(), availableFromYears.getValue(), availableToYears.getValue(), EventType.ROOT));
+        if(propertyOnCountryOrYearsSelected.getValue() != null)
+            propertyOnCountryOrYearsSelected.get().handle(new CountryOrYearsSelectedEvent(
+                    availableCountries.getValue(), availableFromYears.getValue(), availableToYears.getValue(), EventType.ROOT));
     }
 
     private ObjectProperty<EventHandler<CountryOrYearsSelectedEvent>> propertyOnCountryOrYearsSelected = new SimpleObjectProperty<>();

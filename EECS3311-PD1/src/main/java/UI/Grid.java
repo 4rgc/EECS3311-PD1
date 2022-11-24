@@ -71,13 +71,13 @@ public class Grid extends GridPane {
             topLeft.getChildren().remove(0);
         }
         else if (location == GRID_POINT.TOP_RIGHT) {
-            topLeft.getChildren().remove(0);
+            topRight.getChildren().remove(0);
         }
         else if (location == GRID_POINT.BOTTOM_LEFT) {
-            topLeft.getChildren().remove(0);
+            bottomLeft.getChildren().remove(0);
         }
         else if (location == GRID_POINT.BOTTOM_RIGHT) {
-            topLeft.getChildren().remove(0);
+            bottomRight.getChildren().remove(0);
         }
     }
 }

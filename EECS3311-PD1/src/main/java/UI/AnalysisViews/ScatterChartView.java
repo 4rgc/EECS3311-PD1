@@ -1,6 +1,7 @@
 package UI.AnalysisViews;
 
 import Analyzer.AnalysisResult;
+import javafx.collections.FXCollections;
 import javafx.scene.chart.ScatterChart;
 
 public class ScatterChartView extends XYChartView {
@@ -18,6 +19,6 @@ public class ScatterChartView extends XYChartView {
     public void rerender() {
         ScatterChart<String, Number> chart = (ScatterChart<String, Number>) node;
         chart.getData().clear();
-        chart.getData().addAll(this.seriesData);
+        chart.setData(FXCollections.observableList(seriesData));
     }
 }

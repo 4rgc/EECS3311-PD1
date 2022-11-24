@@ -58,7 +58,8 @@ public class BottomMenuView extends HBox {
     }
 
     public void recalculate(ActionEvent actionEvent) {
-        propertyOnRecalculateClicked.get().handle
+        if(propertyOnRecalculateClicked.isNotNull().getValue())
+            propertyOnRecalculateClicked.get().handle
                 (new RecalculateEvent(availableAnalyses.getValue(), EventType.ROOT));
     }
 
