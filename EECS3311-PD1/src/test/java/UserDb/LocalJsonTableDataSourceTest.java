@@ -14,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LocalJsonTableDataSourceTest {
 
-    public static final String VALID_TEST_DB_PATH = "src/test/resources/userDb/usertestdb.json";
-    public static final String NOMETA_TEST_DB_PATH = "src/test/resources/userDb/usertestdb_nometa.json";
-    public static final String NOCOLUMNS_TEST_DB_PATH = "src/test/resources/userDb/usertestdb_nocolumns.json";
-    public static final String MALFORMED_TEST_DB_PATH = "src/test/resources/userDb/usertestdb_malformed.json";
-    public static final String EXTRA_FIELD_STRUCTURE_TEST_DB_PATH = "src/test/resources/userDb/usertestdb_extra_field_unexpected.json";
-    public static final String MISSING_FIELD_STRUCTURE_TEST_DB_PATH = "src/test/resources/userDb/usertestdb_missing_field_unexpected.json";
-    public static final String NONEXISTENT_TEST_DB_PATH = "src/test/resources/userDb/usertestdb_nonexistent.json";
+    public static final String VALID_TEST_DB_PATH = "src/test/resources/UserDb/usertestdb.json";
+    public static final String NOMETA_TEST_DB_PATH = "src/test/resources/UserDb/usertestdb_nometa.json";
+    public static final String NOCOLUMNS_TEST_DB_PATH = "src/test/resources/UserDb/usertestdb_nocolumns.json";
+    public static final String MALFORMED_TEST_DB_PATH = "src/test/resources/UserDb/usertestdb_malformed.json";
+    public static final String EXTRA_FIELD_STRUCTURE_TEST_DB_PATH = "src/test/resources/UserDb/usertestdb_extra_field_unexpected.json";
+    public static final String MISSING_FIELD_STRUCTURE_TEST_DB_PATH = "src/test/resources/UserDb/usertestdb_missing_field_unexpected.json";
+    public static final String NONEXISTENT_TEST_DB_PATH = "src/test/resources/UserDb/usertestdb_nonexistent.json";
 
     private String createACopyOfAFile(String originalFilePath) throws IOException {
         String origFileString = getFileAsString(originalFilePath);
