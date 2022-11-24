@@ -19,16 +19,15 @@ public abstract class AnalysisView {
         List<Map<String, Double>> rawData = result.getData();
 
         for(int i = 0; i < labels.length; i++) {
-            Map<Integer, Double> series = new HashMap<>();
+            Map<Integer, Double> map = new HashMap<>();
             Map<String, Double> rawDataForLabel = rawData.get(i);
 
             for (String year: rawDataForLabel.keySet()) {
                 Integer intYear = Integer.parseInt(year);
-                if(rawDataForLabel.get(year) != null)
-                    series.put(intYear, rawDataForLabel.get(year));
+                map.put(intYear, rawDataForLabel.get(year));
             }
 
-            seriesMap.put(labels[i], series);
+            seriesMap.put(labels[i], map);
         }
 
         return seriesMap;
