@@ -1,4 +1,4 @@
-package org.example.userDb;
+package UserDb;
 
 public interface ITableDataSource extends AutoCloseable {
     String[] getKeys() throws TableDataSourceException;

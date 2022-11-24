@@ -1,6 +1,5 @@
 package UI;
 
-import UI.Login.LoginView;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.scene.Scene;

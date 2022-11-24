@@ -1,10 +1,6 @@
-package userDb;
+package UserDb;
 
-import org.example.userDb.IRecord;
-import org.example.userDb.ISingleTableDatabase.DatabaseException;
-import org.example.userDb.ITableDataSource;
-import org.example.userDb.ITableDataSourceFactory;
-import org.example.userDb.UserSingleTableDatabase;
+import UserDb.ISingleTableDatabase.DatabaseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

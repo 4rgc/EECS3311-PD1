@@ -1,11 +1,10 @@
-package userDb;
+package UserDb;
 
 import com.alibaba.fastjson.JSONObject;
-import org.example.userDb.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.example.userDb.ISingleTableDatabase.*;
+import static UserDb.ISingleTableDatabase.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserDbModelTest {

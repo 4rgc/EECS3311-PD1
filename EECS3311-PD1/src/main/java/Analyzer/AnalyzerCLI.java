@@ -1,6 +1,6 @@
 package Analyzer;
 
-import org.example.WbApiModel;
+import WbApi.WbApiModel;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

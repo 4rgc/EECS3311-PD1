@@ -7,7 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
-import org.example.WbApiModel;
+import WbApi.WbApiModel;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;

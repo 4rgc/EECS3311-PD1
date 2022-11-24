@@ -1,4 +1,4 @@
-package UI.Login;
+package UI;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -12,7 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
-import org.example.userDb.*;
+import UserDb.*;
 
 import java.io.IOException;
 import java.util.Objects;

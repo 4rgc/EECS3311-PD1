@@ -1,4 +1,4 @@
-package org.example.userDb;
+package UserDb;
 
 public interface IUser extends IDbRecord, Cloneable {
     String getUsername();

@@ -1,6 +1,6 @@
 package Analyzer;
 
-import org.example.WbApiModel;
+import WbApi.WbApiModel;
 
 public abstract class AbstractAnalyzer {
     protected String startYear;

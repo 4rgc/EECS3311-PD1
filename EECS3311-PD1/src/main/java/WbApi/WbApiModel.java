@@ -1,4 +1,4 @@
-package org.example;
+package WbApi;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
