@@ -1,6 +1,7 @@
 package UI.AnalysisViews;
 
 import Analyzer.AnalysisResult;
+import javafx.collections.FXCollections;
 import javafx.scene.chart.LineChart;
 
 public class LineChartView extends XYChartView {
@@ -18,6 +19,6 @@ public class LineChartView extends XYChartView {
     public void rerender() {
         LineChart<String, Number> chart = (LineChart<String, Number>) node;
         chart.getData().clear();
-        chart.getData().addAll(this.seriesData);
+        chart.setData(FXCollections.observableList(seriesData));
     }
 }
