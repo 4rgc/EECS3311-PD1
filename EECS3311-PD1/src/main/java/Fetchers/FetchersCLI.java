@@ -1,6 +1,6 @@
 package Fetchers;
 
-import org.example.WbApiModel;
+import WbApi.WbApiModel;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class FetchersCLI {
-    public static void main(String args[]) throws WbApiModel.WbApiModelException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args) throws WbApiModel.WbApiModelException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         String country;
         String startYear;
         String endYear;

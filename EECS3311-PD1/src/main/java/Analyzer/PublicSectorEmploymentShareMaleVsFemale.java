@@ -1,7 +1,7 @@
 package Analyzer;
 
 import Fetchers.*;
-import org.example.WbApiModel;
+import WbApi.WbApiModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;

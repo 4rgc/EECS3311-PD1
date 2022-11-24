@@ -1,4 +1,4 @@
-package org.example.userDb;
+package UserDb;
 
 public class UserRecord implements IRecord {
     IUser user;

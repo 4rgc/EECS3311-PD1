@@ -4,7 +4,7 @@ import Analyzer.AirPollutionVsForestArea;
 import Analyzer.AnalysisResult;
 import Analyzer.AverageExpenditureOnEducation;
 import Analyzer.Co2VsEnergyUseVsAirPollution;
-import org.example.WbApiModel;
+import WbApi.WbApiModel;
 import org.junit.jupiter.api.*;
 
 import java.util.HashMap;

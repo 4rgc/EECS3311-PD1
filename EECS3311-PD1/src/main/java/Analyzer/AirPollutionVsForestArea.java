@@ -3,7 +3,7 @@ package Analyzer;
 import Fetchers.AbstractFetcher;
 import Fetchers.AirPollutionFetcher;
 import Fetchers.ForestAreaFetcher;
-import org.example.WbApiModel;
+import WbApi.WbApiModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;

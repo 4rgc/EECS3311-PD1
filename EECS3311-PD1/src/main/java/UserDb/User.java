@@ -1,4 +1,4 @@
-package org.example.userDb;
+package UserDb;
 
 import java.util.Objects;
 

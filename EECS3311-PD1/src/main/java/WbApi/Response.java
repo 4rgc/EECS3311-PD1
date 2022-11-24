@@ -1,4 +1,4 @@
-package org.example;
+package WbApi;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

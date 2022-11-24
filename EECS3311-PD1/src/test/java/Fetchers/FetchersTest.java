@@ -1,6 +1,6 @@
 package Fetchers;
 
-import org.example.WbApiModel;
+import WbApi.WbApiModel;
 import org.junit.jupiter.api.*;
 
 import java.util.HashMap;

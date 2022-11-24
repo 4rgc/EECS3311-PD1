@@ -1,4 +1,4 @@
-package org.example.userDb;
+package UserDb;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;

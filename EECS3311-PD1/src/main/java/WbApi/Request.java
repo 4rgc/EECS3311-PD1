@@ -1,10 +1,10 @@
-package org.example;
+package WbApi;
 
 public class Request implements IRequest{
-    private String country;
-    private String indicatorID;
-    private String yearFrom;
-    private String yearTo;
+    final private String country;
+    final private String indicatorID;
+    final private String yearFrom;
+    final private String yearTo;
 
     public Request(String country, String indicatorID
             , String yearFrom, String yearTo){

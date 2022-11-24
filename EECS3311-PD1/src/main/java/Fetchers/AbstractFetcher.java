@@ -1,6 +1,6 @@
 package Fetchers;
 
-import org.example.*;
+import WbApi.*;
 
 import java.util.HashMap;
 import java.util.Map;

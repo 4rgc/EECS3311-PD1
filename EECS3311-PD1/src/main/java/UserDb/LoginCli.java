@@ -1,4 +1,4 @@
-package org.example.userDb;
+package UserDb;
 
 import java.io.BufferedReader;
 import java.io.IOException;

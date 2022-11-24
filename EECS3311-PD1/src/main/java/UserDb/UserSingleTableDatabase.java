@@ -1,6 +1,4 @@
-package org.example.userDb;
-
-import org.example.userDb.ITableDataSource.TableDataSourceException;
+package UserDb;
 
 public class UserSingleTableDatabase implements ISingleTableDatabase<IUser> {
     private final ITableDataSourceFactory dataSourceFactory;
@@ -13,7 +11,7 @@ public class UserSingleTableDatabase implements ISingleTableDatabase<IUser> {
     public String[] getKeys() throws DatabaseException {
         try(ITableDataSource dataSource = dataSourceFactory.createTableDataSource()) {
             return dataSource.getKeys();
-        } catch(TableDataSourceException e) {
+        } catch(ITableDataSource.TableDataSourceException e) {
             throw new DatabaseException("Data source exception: " + e.getMessage());
         } catch(Exception e) {
             throw new DatabaseException("Could not close TableDataSource: " + e.getMessage());
@@ -27,7 +25,7 @@ public class UserSingleTableDatabase implements ISingleTableDatabase<IUser> {
         ) {
             IRecord createdRecord = dataSource.createRecord(new UserRecord(newUser));
             return new User(createdRecord);
-        } catch(TableDataSourceException e) {
+        } catch(ITableDataSource.TableDataSourceException e) {
             throw new DatabaseException("Data source exception: " + e.getMessage());
         } catch(Exception e) {
             throw new DatabaseException("Could not close TableDataSource: " + e.getMessage());
@@ -41,7 +39,7 @@ public class UserSingleTableDatabase implements ISingleTableDatabase<IUser> {
         ) {
             IRecord updatedRecord = dataSource.updateRecord(new UserRecord(updatedUser));
             return new User(updatedRecord);
-        } catch(TableDataSourceException e) {
+        } catch(ITableDataSource.TableDataSourceException e) {
             throw new DatabaseException("Data source exception: " + e.getMessage());
         } catch(Exception e) {
             throw new DatabaseException("Could not close TableDataSource: " + e.getMessage());
@@ -55,7 +53,7 @@ public class UserSingleTableDatabase implements ISingleTableDatabase<IUser> {
         ) {
             IRecord record = dataSource.getRecord(id);
             return new User(record);
-        } catch(TableDataSourceException e) {
+        } catch(ITableDataSource.TableDataSourceException e) {
             throw new DatabaseException("Data source exception: " + e.getMessage());
         } catch(Exception e) {
             throw new DatabaseException("Could not close TableDataSource: " + e.getMessage());
@@ -69,7 +67,7 @@ public class UserSingleTableDatabase implements ISingleTableDatabase<IUser> {
         ) {
             IRecord record = dataSource.removeRecord(id);
             return new User(record);
-        } catch(TableDataSourceException e) {
+        } catch(ITableDataSource.TableDataSourceException e) {
             throw new DatabaseException("Data source exception: " + e.getMessage());
         } catch(Exception e) {
             throw new DatabaseException("Could not close TableDataSource: " + e.getMessage());

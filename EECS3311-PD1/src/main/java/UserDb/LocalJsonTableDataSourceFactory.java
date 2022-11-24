@@ -1,6 +1,6 @@
-package org.example.userDb;
+package UserDb;
 
-import org.example.userDb.ITableDataSource.TableDataSourceException;
+import UserDb.ITableDataSource.TableDataSourceException;
 
 public class LocalJsonTableDataSourceFactory implements ITableDataSourceFactory {
 
