@@ -37,7 +37,8 @@ public class LoginView extends VBox {
                 new UserSingleTableDatabase(
                         new LocalJsonTableDataSourceFactory(
                                 Objects.requireNonNull(
-                                        getClass().getResource("/userdb.json")).getPath()
+                                        getClass().getResource("/userdb.json")
+                                ).getPath()
                         )
                 )
         );
@@ -99,7 +100,6 @@ public class LoginView extends VBox {
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText("Unexpected exception occurred:\n" + e.getMessage());
             alert.showAndWait();
-            throw new RuntimeException(e);
         }
     }
 
