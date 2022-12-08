@@ -85,4 +85,19 @@ public class AnalyzersTest {
         Assertions.assertEquals(0.0936650335788727, year1.get(result.getLabels()[0]));
         Assertions.assertEquals(0.145692750811577, year1.get(result.getLabels()[1]));
     }
+
+    @Test
+    void EducationExpenditureVsHealthExpenditureTest() throws WbApiModel.WbApiModelException {
+        var educationExpenditureVsHealthExpenditure = new EducationExpenditureVsHealthExpenditure(startYear, endYear, country);
+        AnalysisResult result = educationExpenditureVsHealthExpenditure.recalculate(startYear, endYear, country);
+        Map<String, Double> year1 = new HashMap<String, Double>(result.getValues(Integer.parseInt(startYear)));
+        Map<String, Double> year2 = new HashMap<String, Double>(result.getValues(Integer.parseInt(endYear)));
+        Assertions.assertEquals(result.getLabels().length, 2);
+        Assertions.assertEquals("EducationExpenditure", result.getLabels()[0]);
+        Assertions.assertEquals("HealthExpenditure", result.getLabels()[1]);
+        Assertions.assertEquals(12.9826002120972, year1.get(result.getLabels()[0]));
+        Assertions.assertEquals(8.24814415, year1.get(result.getLabels()[1]));
+        Assertions.assertEquals(12.2122402191162, year2.get(result.getLabels()[0]));
+        Assertions.assertEquals(8.62482357, year2.get(result.getLabels()[1]));
+    }
 }
