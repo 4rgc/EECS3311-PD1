@@ -24,6 +24,8 @@ public class LoginView extends VBox {
         }
     }
 
+    static public EventType<LoginSuccessfulEvent> loginSuccessfulEventEventType = new EventType<>(EventType.ROOT);
+
     private EventHandler<LoginSuccessfulEvent> onLoginSuccessful;
 
     UserDbModel model;
@@ -94,7 +96,7 @@ public class LoginView extends VBox {
             }
 
             if(onLoginSuccessful != null)
-                onLoginSuccessful.handle(new LoginSuccessfulEvent(new EventType<>(EventType.ROOT)));
+                onLoginSuccessful.handle(new LoginSuccessfulEvent(loginSuccessfulEventEventType));
         } catch (ISingleTableDatabase.DatabaseException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
