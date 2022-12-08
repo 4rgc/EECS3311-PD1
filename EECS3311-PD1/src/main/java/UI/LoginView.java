@@ -15,7 +15,6 @@ import javafx.stage.Modality;
 import UserDb.*;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class LoginView extends VBox {
     static public class LoginSuccessfulEvent extends Event {
@@ -38,9 +37,7 @@ public class LoginView extends VBox {
         model = new UserDbModel(
                 new UserSingleTableDatabase(
                         new LocalJsonTableDataSourceFactory(
-                                Objects.requireNonNull(
-                                        getClass().getResource("/userdb.json")
-                                ).getPath()
+                                "src/main/resources/userdb.json"
                         )
                 )
         );
@@ -98,6 +95,7 @@ public class LoginView extends VBox {
             if(onLoginSuccessful != null)
                 onLoginSuccessful.handle(new LoginSuccessfulEvent(loginSuccessfulEventEventType));
         } catch (ISingleTableDatabase.DatabaseException e) {
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText("Unexpected exception occurred:\n" + e.getMessage());
