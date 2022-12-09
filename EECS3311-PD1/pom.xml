@@ -147,6 +147,7 @@
                         <jvmArg>-Dprism.order=sw</jvmArg>
                         <jvmArg>-Dprism.text=t2k</jvmArg>
                         <jvmArg>-Dtestfx.setup.timeout=2500</jvmArg>
+                        <jvmArg>-DtimeoutConstant=4000</jvmArg>
                     </jvmArgs>
                 </configuration>
                 <dependencies>
